@@ -8,6 +8,8 @@ const { errorsCollector, notFound } = require('./app/middlewares/handlers/errorH
 const PORT = process.env.PORT || 5000;
 const BASE_URL = process.env.BASE_URL;
 
+app.use(express.json());
+
 app.use(router);
 
 // error handling

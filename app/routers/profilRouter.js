@@ -4,7 +4,7 @@ const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 
 const router = express.Router();
 
-router.get('/profil/:id', catchErrors(profilController.getOne));
+router.get('/:id', catchErrors(profilController.getOne));
 
 
 
