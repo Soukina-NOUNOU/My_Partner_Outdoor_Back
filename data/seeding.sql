@@ -15,6 +15,7 @@ VALUES
 ('BasketBall'),
 ('PingPong'),
 ('Tennis'),
+('Velo'),
 ('Badminton');
 
 INSERT INTO "level"

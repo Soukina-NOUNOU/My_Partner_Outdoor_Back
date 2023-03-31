@@ -14,7 +14,12 @@ const router = express.Router();
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
 router.get('/:id', eventController.getOne);
-// router.post('/:id', eventController.eventCreate);
+
+router.post('/', eventController.create);
+
+router.patch('/:id', eventController.modify);
+
+router.delete('/:id', eventController.delete);
 
 
 module.exports = router;

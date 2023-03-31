@@ -1,10 +1,10 @@
 const dataMapper = require ('../models/dataMapper');
 const APIError = require('../middlewares/handlers/APIError');
 
-const profilController = {
+const userController = {
   async getOne (req, res, next) {
     const id = Number(req.params.id);
-    const results = await dataMapper.profilFindByPk(id);
+    const results = await dataMapper.userFindByPk(id);
     
     if(!results) {
       const err = new APIError(`Can not find user with id : ${id}`, 400);
@@ -16,4 +16,4 @@ const profilController = {
   
 };
 
-module.exports = profilController;
+module.exports = userController;

@@ -22,5 +22,5 @@ module.exports = {
     },
   },
   basedir: __dirname, // app absolute path
-  files: ['../routers/profilRouter.js', '../routers/eventRouter.js'], // Path to the API handle folder
+  files: ['../routers/userRouter.js', '../routers/eventRouter.js'], // Path to the API handle folder
 };
