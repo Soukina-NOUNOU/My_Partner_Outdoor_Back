@@ -47,7 +47,6 @@ const userController = {
   async delete (req, res, next) {
     const id = Number(req.params.id);
     const results = await dataMapper.userDelete(id);
-    
     if(!results) {
       const err = new APIError(`Can not create a user profil`, 400);
       return next(err);

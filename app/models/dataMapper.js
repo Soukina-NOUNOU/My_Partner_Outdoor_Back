@@ -23,7 +23,7 @@ const dataMapper = {
   },
 
   // modify a user profil
-  async userModify(user, id) {
+  async userModify(id, user) {
     const query = `UPDATE "user" 
       SET firstname=$1, lastname=$2, email=$3, password=$4, pseudo=$5, picture=$6, birthday=$7, bio=$8 
       WHERE id=$9 
