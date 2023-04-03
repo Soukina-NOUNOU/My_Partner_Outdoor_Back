@@ -2,6 +2,7 @@ const dataMapper = require ('../models/dataMapper');
 const APIError = require('../middlewares/handlers/APIError');
 
 const userController = {
+
   // View a user profil
   async getOne (req, res, next) {
     const id = Number(req.params.id);
@@ -14,7 +15,6 @@ const userController = {
 
   res.status(200).json(results); 
   },
-
 
   // create a user profil
   async create (req, res, next) {
@@ -54,7 +54,6 @@ const userController = {
 
     res.status(200).json(results);
   },
-
 
 };
 

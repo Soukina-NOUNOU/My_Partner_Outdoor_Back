@@ -1,4 +1,3 @@
-
 BEGIN;
 
 INSERT INTO "user"
@@ -37,7 +36,12 @@ VALUES
 INSERT INTO "event"
 ("title", "description", "start", "finish", "nb_participant", "equipement", "price", "picture", "organizer_id", "sport_id", "level_id", "address_id")
 VALUES
+('Event de football', 'Faire un foot 5vs5', '2023-04-01 12:00:44.880791+02', '2023-04-01 17:00:44.880791+02', 10, 'Chaussure crampon', 5.556, '/images/foot', 1, 1, 1, 1),
+('Event de BasketBall', 'Faire un Basket', '2023-04-01 12:00:44.880791+02', '2023-04-01 17:00:44.880791+02', 2, '', 0, '/images/basket', 2, 3, 1, 2),
+('Event de PingPong', 'Faire un PingPong Beer', '2023-04-01 12:00:44.880791+02', '2023-04-01 17:00:44.880791+02', 10, 'Biere', 10, '/images/pingpong', 3, 4, 3, 3),
+('Event de Tennis', 'Faire un tennis', '2023-04-01 12:00:44.880791+02', '2023-04-01 17:00:44.880791+02', 4, 'Raquette et balles', 0, '/images/tennis', 1, 5, 1, 4);
 ('Event de football', 'Faire un foot 5vs5', '2023-04-01 12:00:44.880791+02', '2023-04-01 17:00:44.880791+02', 10, 'Chaussure crampon', 5.556, '/images/foot', 1, 1, 1, 1);
+
 
 INSERT INTO "message"
 ("content", "user_id", "event_id")

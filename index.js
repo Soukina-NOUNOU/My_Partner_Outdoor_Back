@@ -22,7 +22,6 @@ app.use(router);
 app.use(notFound);
 app.use(errorsCollector);
 
-
 app.listen(process.env.PORT, () => {
     console.log(`Listening on ${BASE_URL}:${PORT}`)
 });
