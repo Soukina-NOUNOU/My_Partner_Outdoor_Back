@@ -37,7 +37,7 @@ const dataMapper = {
 
   const result = await client.query(query, values);
 
-    return result;
+    return result.rows[0];
     },
 
 
@@ -63,6 +63,9 @@ async eventModify(id, event) {
     event.start,
     event.finish,
     event.nb_participant,
+    event.equipement,
+    event.price,
+    event.picture,
     event.organizer_id,
     event.sport_id,
     event.level_id,
@@ -81,7 +84,7 @@ async eventDelete(id) {
   const values = [id];
   const result = await client.query(query, values);
   
-  return result.rowCount;
+  return result.rows;
 }
     
 
