@@ -9,7 +9,7 @@ const userController = {
     const results = await dataMapper.userFindByPk(id);
     
     if(!results) {
-      const err = new APIError(`Can not find user with id : ${id}`, 400);
+      const err = new APIError(`Can not find user profil with id : ${id}`, 400);
       return next(err);
   };
 
@@ -36,7 +36,7 @@ const userController = {
     const results = await dataMapper.userModify(id, user);
     
     if(!results) {
-      const err = new APIError(`Can not modify user with id : ${id}`, 400);
+      const err = new APIError(`Can not modify user profil with id : ${id}`, 400);
       return next(err);
     };
 
@@ -48,7 +48,7 @@ const userController = {
     const id = Number(req.params.id);
     const results = await dataMapper.userDelete(id);
     if(!results) {
-      const err = new APIError(`Can not create a user profil`, 400);
+      const err = new APIError(`Can not delete a user profil`, 400);
       return next(err);
     };
 

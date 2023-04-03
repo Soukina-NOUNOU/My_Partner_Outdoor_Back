@@ -25,7 +25,7 @@ const dataMapper = {
   // modify a user profil
   async userModify(id, user) {
     const query = `UPDATE "user" 
-      SET firstname=$1, lastname=$2, email=$3, password=$4, pseudo=$5, picture=$6, birthday=$7, bio=$8 
+      SET firstname=$1, lastname=$2, email=$3, password=$4, pseudo=$5, picture=$6, birthday=$7, bio=$8, updated_at=NOW() 
       WHERE id=$9 
       RETURNING *`;
     const values = [user.firstname, user.lastname, user.email, user.password, user.pseudo, user.picture, user.birthday, user.bio, id];
@@ -37,10 +37,11 @@ const dataMapper = {
   async userDelete(id) {
     const query = `DELETE FROM "user" WHERE "id"=$1`;
     const results = await client.query(query, [id]);
-    return results.rows;
+    return results;
   },
   
-/********************* end user***********************/
+/********************* end user ***********************/
+
 };
 
 module.exports = dataMapper;
