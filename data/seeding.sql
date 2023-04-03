@@ -1,3 +1,4 @@
+
 BEGIN;
 
 INSERT INTO "user"
