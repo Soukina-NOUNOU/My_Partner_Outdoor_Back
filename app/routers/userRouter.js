@@ -1,6 +1,7 @@
 const express = require('express');
 const userController = require ('../controllers/userController');
 const {catchErrors} = require('../middlewares/handlers/errorHandlers')
+
 const router = express.Router();
 
 /**
@@ -25,9 +26,11 @@ const router = express.Router();
  * @returns {object} 200 - An object with "result"
  * @returns {Error} 400 - Bad request "user id or data is invalid"
  * @returns {Error} 404 - Page not found "user was not found"
+
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
 router.get('/:id', catchErrors(userController.getOne));
+
 
 /**
  * Create a User
@@ -66,5 +69,6 @@ router.patch('/:id', catchErrors(userController.mofify));
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
 router.delete('/:id', catchErrors(userController.delete));
+
 
 module.exports = router;

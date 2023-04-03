@@ -1,4 +1,4 @@
--- SQLBook: Code
+
 BEGIN;
 
 INSERT INTO "user"
@@ -16,6 +16,7 @@ VALUES
 ('BasketBall'),
 ('PingPong'),
 ('Tennis'),
+('Velo'),
 ('Badminton');
 
 INSERT INTO "level"
