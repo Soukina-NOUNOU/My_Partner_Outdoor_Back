@@ -1,4 +1,3 @@
--- SQLBook: Code
 BEGIN;
 
 DROP TABLE IF EXISTS "event",

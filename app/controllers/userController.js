@@ -16,7 +16,7 @@ const userController = {
   res.status(200).json(results); 
   },
 
-  // create a user profil
+  // Create a user profil
   async create (req, res, next) {
     const user = req.body;
     const results = await dataMapper.userCreate(user);

@@ -10,7 +10,7 @@ La Description de l'app
 * Depuis le  repository : npm install
 * Renommer le ".env.example" en ".env"
 * Créer la BDD et USER :
-  * psql -U postgres
+  * sudo -i -U postgres psql
   * CREATE ROLE mypartner WITH LOGIN PASSWORD 'mypartner';
   * CREATE DATABASE mypartner OWNER mypartner;
   * \q

@@ -3,9 +3,10 @@ const userRouter = require('./userRouter');
 const eventRouter = require ('./eventRouter');
 const router = express.Router();
 
+// Route User
 router.use('/user', userRouter);
+// Route Event
 router.use('/event', eventRouter);
-
 
 router.get('/', function (req, res) {
     res.send('Hello World')
