@@ -112,6 +112,6 @@ router.delete('/:id', catchErrors(eventController.delete));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.post('/', validate(postSchema, 'body'), catchErrors(eventController.create));
-
+router.post('/',  catchErrors(eventController.create));
+// validate(postSchema, 'body'),
 module.exports = router;
