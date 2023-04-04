@@ -1,0 +1,38 @@
+{
+  "id": 20,
+  "title": "string",
+  "description": "string",
+  "start": "12/05/2023 12:30",
+  "finish": "12/05/2023 12:30",
+  "nb_participant": 6,
+  "equipement": "string",
+  "price": 0,
+  "picture": "string",
+  "organizer_id": 1,
+  "sport_id": 2,
+  "level_id": 2,
+  "address_id": 1,
+"number": 35,
+"street": "rue de la pologne",
+"zip_code": 34000,
+"city": "Montpellier",
+"sport": "football"
+ 
+}
+
+// title: Joi.string().required(),
+// description: Joi.string().optional(),
+// start: Joi.date().required(),
+// finish: Joi.date().required(),
+// nb_participant: Joi.number().integer().required(),
+// equipement: Joi.string(),
+// price: Joi.number().integer(),
+// picture: Joi.string(),
+// organizer_id: Joi.number().integer().required(),
+// number: Joi.number().integer().required(),
+// street: Joi.string().required(),
+// zip_code: Joi.number().integer().required(),
+// city: Joi.string().required(),
+// sport_id: Joi.number().integer().required(),
+// level_id: Joi.number().integer().required(),
+// address_id: Joi.number().integer().required()

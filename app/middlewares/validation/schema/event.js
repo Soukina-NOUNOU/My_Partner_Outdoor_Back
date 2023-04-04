@@ -2,21 +2,19 @@ const Joi = require('joi');
 
 const schemas = {
     post: Joi.object({
-        title: Joi.string(),
-        description: Joi.string(),
-        start: Joi.date().timestamp(),
-        finish: Joi.date().timestamp(),
+        id: Joi.number().integer().required(),
+        title: Joi.string().required(),
+        description: Joi.string().optional(),
+        start: Joi.date().optional(),
+        finish: Joi.date().optional(),
         nb_participant: Joi.number().integer().required(),
         equipement: Joi.string(),
         price: Joi.number().integer(),
         picture: Joi.string(),
         organizer_id: Joi.number().integer().required(),
-        number: Joi.number().integer().required(),
-        street: Joi.string().required(),
-        zip_code: Joi.number().integer().required(),
-        city: Joi.string().required(),
-        sport: Joi.string().required(),
-        level: Joi.string().required(),
+        sport_id: Joi.number().integer().required(),
+        level_id: Joi.number().integer().required(),
+        address_id: Joi.number().integer().required()
     }).required(),
     path: Joi.object({
         firstname: Joi.string(),

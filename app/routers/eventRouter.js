@@ -1,6 +1,8 @@
 const express = require('express');
 const eventController = require ('../controllers/eventController');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
+const validate = require('../middlewares/validation/validation');
+const { post: postSchema, get: getSchema, path: pathSchema } = require('../middlewares/validation/schema/event');
 const router = express.Router();
 
 /**
@@ -108,6 +110,6 @@ router.delete('/:id', catchErrors(eventController.delete));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.post('/', catchErrors(eventController.create));
+router.post('/', validate(postSchema, 'body'), catchErrors(eventController.create));
 
 module.exports = router;
