@@ -1,4 +1,4 @@
-# my-partner-outdoor-back vvv
+# my-partner-outdoor-back
 
 ## Description
 
@@ -17,4 +17,3 @@ La Description de l'app
 * Création et Seeding : npm run resetDB
 * npm run dev
 * http://localhost:4000/api-docs
-

@@ -1,4 +1,5 @@
 const client = require("../utils/dbConnect");
+const bcrypt = require('bcrypt');
 
 const dataMapper = {
   /******************* User **********************/
@@ -9,16 +10,17 @@ const dataMapper = {
     return results.rows[0];
   },
   // Create one user
-  async userCreate(user) {
+  async userCreate(user, password) {
+
     const query = `INSERT INTO "user" 
       (firstname, lastname, email, password, pseudo, picture, birthday, bio)
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
       RETURNING *`;
-    const values = [
+    let values = [
       user.firstname,
       user.lastname,
       user.email,
-      user.password,
+      password,
       user.pseudo,
       user.picture,
       user.birthday,
@@ -51,8 +53,22 @@ const dataMapper = {
   async userDelete(id) {
     const query = `DELETE FROM "user" WHERE "id"=$1`;
     const results = await client.query(query, [id]);
-    return results;
+    if (results.rowCount === 1) {
+    return results.rowCount = `user has been deleted`
+    } 
+    else {
+    return results.rowCount = `user can not be deleted`
+    };
   },
+  // Login one user
+  async userLogin(email) {
+    const query = `SELECT * FROM "user"  WHERE "email"=$1`;
+    const results = await client.query(query, [email]);
+    return results.rows[0];
+    
+
+  },
+  
   /******************* End User ******************/
 
   /******************* Event *********************/
@@ -122,7 +138,12 @@ const dataMapper = {
     const query = `DELETE FROM "event" WHERE id = $1`;
     const values = [id];
     const results = await client.query(query, values);
-    return results.rows;
+    if (results.rowCount === 1) {
+      return results.rowCount = `event has been deleted`
+    } 
+    else {
+      return results.rowCount = `event can not be deleted`
+    };
   },
   // Select random events
   async eventFindRandom() {
