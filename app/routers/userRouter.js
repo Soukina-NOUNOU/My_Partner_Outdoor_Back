@@ -1,6 +1,8 @@
 const express = require('express');
 const userController = require ('../controllers/userController');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
+const validate = require('../middlewares/validation/validation');
+const { post: postSchema, get: getSchema } = require('../middlewares/validation/schema/user');
 const router = express.Router();
 
 /**
@@ -27,7 +29,7 @@ const router = express.Router();
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.get('/:id', catchErrors(userController.getOne));
+ router.get('/:id', validate(getSchema, 'params'), catchErrors(userController.getOne));
 
 /**
  * Modify a User by its id
@@ -65,6 +67,6 @@ router.delete('/:id', catchErrors(userController.delete));
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.post('/', catchErrors(userController.create));
+router.post('/', validate(postSchema, 'body'), catchErrors(userController.create));
 
 module.exports = router;

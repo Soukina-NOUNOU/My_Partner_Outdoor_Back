@@ -1,6 +1,7 @@
 const dataMapper = require ('../models/dataMapper');
 const APIError = require('../middlewares/handlers/APIError');
 
+
 const userController = {
 
   // View a user profil
