@@ -4,7 +4,7 @@ const APIError = require('../middlewares/handlers/APIError');
 const eventController = {
   // Return one Event
   async getOne (req, res, next) {
-    const id = Number(req.params.id);
+    const id = req.params.id;
     const results = await dataMapper.eventFindByPk(id);
     
     if(!results) {
@@ -15,14 +15,28 @@ const eventController = {
   },
   // Create one Event
   async create (req, res, next) {
-    const events = req.body;
-    const results = await dataMapper.eventCreate(events);
-    
+    const event = req.body;
+    // Create address
+    const address = await dataMapper.addressCreate(event);
+    // Return selected sport
+    const sport = await dataMapper.getSport(event);
+    // Retunr selected level
+    const level = await dataMapper.getLevel(event);
+    // Create event
+    const results = await dataMapper.eventCreate(event, address.id, sport.id, level.id);
     if(!results) {
       const err = new APIError(`Can not insert event`, 400);
       return next(err);
-  };
-  res.status(200).json(results); 
+    };
+
+    // Add organizer to event list user
+    const eventHasUser = await dataMapper.eventCreateHasUser(results);
+    if(!eventHasUser) {
+      const err = new APIError(`Can not associate event_has_user`, 400);
+      return next(err);
+    };
+
+    res.status(200).json(results); 
   },
   // Modify one Event
   async modify (req, res, next) {
@@ -37,6 +51,7 @@ const eventController = {
   res.status(200).json(result);
   },
   // Delete one Event
+  //TODO Check le retour avec rowCount
   async delete(req, res, next) {
     const id = req.params.id;
   
