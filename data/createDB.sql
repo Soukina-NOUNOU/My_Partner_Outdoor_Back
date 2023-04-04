@@ -18,7 +18,7 @@ CREATE TABLE "user" (
     "password" TEXT NOT NULL,
     "pseudo" TEXT NOT NULL,
     "picture" TEXT,
-    "birthday" TEXT NOT NULL,
+    "birthday" TEXT,
     "bio" TEXT,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
