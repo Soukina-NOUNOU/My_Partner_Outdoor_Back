@@ -5,6 +5,7 @@ const validate = require('../middlewares/validation/validation');
 const { post: postSchema, get: getSchema } = require('../middlewares/validation/schema/user');
 const router = express.Router();
 
+
 /**
  * Models type of User
  * @typedef User
@@ -18,6 +19,12 @@ const router = express.Router();
  * @property {string} bio - Lorem ipsum
  * 
  */
+
+router.get('/login', (req, res) => {
+  res.render('login');
+});
+router.post('/login', catchErrors(userController.login));
+
 
 /**
  * Shows a User by its id
