@@ -5,13 +5,18 @@ const dataMapper = {
   /******************* User **********************/
   // Select one user
   async userFindByPk(id) {
-    const query = `SELECT * FROM "user" WHERE "id"=$1`;
+    // const query = `SELECT * FROM "user" WHERE "id"=$1`;
+    const query = `
+    SELECT * FROM "user_has_address"
+    JOIN address ON user_has_address.address_id = address.id 
+    JOIN "user" ON user_has_address.user_id = "user".id 
+    WHERE "user".id=$1
+    `;
     const results = await client.query(query, [id]);
     return results.rows[0];
   },
   // Create one user
   async userCreate(user, password) {
-
     const query = `INSERT INTO "user" 
       (firstname, lastname, email, password, pseudo, picture, birthday, bio)
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
@@ -65,8 +70,15 @@ const dataMapper = {
     const query = `SELECT * FROM "user"  WHERE "email"=$1`;
     const results = await client.query(query, [email]);
     return results.rows[0];
-    
-
+  },
+  // Create association User Has Address
+  async userCreateHasAddress(user, address) {
+    const query = `INSERT INTO "user_has_address"(user_id, address_id)
+    VALUES ($1, $2)
+    RETURNING *`;
+    const values = [user.id, address.id];
+    const results = await client.query(query, values);
+    return results.rows[0];
   },
   
   /******************* End User ******************/
@@ -79,9 +91,10 @@ const dataMapper = {
     return results.rows[0];
   },
   // Create one event
-  async eventCreate(event) {
+  async eventCreate(event, addressId, sportId, levelId) {
     const query = `INSERT INTO "event"(title, description, start, finish, nb_participant, equipement, price, picture, organizer_id, sport_id, level_id, address_id)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`;
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    RETURNING *`;
     const values = [
       event.title,
       event.description,
@@ -92,9 +105,9 @@ const dataMapper = {
       event.price,
       event.picture,
       event.organizer_id,
-      event.sport_id,
-      event.level_id,
-      event.address_id,
+      sportId,
+      levelId,
+      addressId,
     ];
     const results = await client.query(query, values);
     return results.rows[0];
@@ -154,16 +167,54 @@ const dataMapper = {
   // Select events by search
   async eventFindSearch(search) {
     const query = `
-  SELECT * FROM "sport"
-  JOIN "event" ON event.sport_id = sport.id
-  JOIN "address" ON event.address_id = address.id
-  WHERE LOWER(name) LIKE LOWER($1)
+    SELECT *, level.name AS level, sport.name AS sport FROM "event"
+    JOIN "sport" ON event.sport_id = sport.id
+    JOIN "address" ON event.address_id = address.id
+    JOIN "level" ON event.level_id = level.id
+    JOIN "user" ON event.organizer_id = "user".id
+    WHERE LOWER(sport.name) LIKE LOWER($1)
   `;
     search = `%${search}%`;
     const results = await client.query(query, [search]);
     return results.rows;
   },
+  // Create association Event Has User
+  async eventCreateHasUser(event) {
+    const query = `INSERT INTO "event_has_user"(event_id, user_id)
+    VALUES ($1, $2)
+    RETURNING *`;
+    const values = [event.id, event.organizer_id];
+    const results = await client.query(query, values);
+    return results.rows[0];
+  },
   /******************* End Event *****************/
+
+  /******************* Address ******************/
+  async addressCreate(address) {
+    const query = `INSERT INTO "address" (number, street, zip_code, city)
+    VALUES ($1, $2, $3, $4)
+    RETURNING *`;
+    const values = [address.number, address.street, address.zip_code, address.city];
+    const results = await client.query(query, values);
+    return results.rows[0];
+  },
+  /******************* End Address **************/
+
+  /******************* Sport ********************/
+  async getSport(obj) {
+    const query = `SELECT * FROM "sport" WHERE "name"=$1`;
+    const results = await client.query(query, [obj.sport]);
+    return results.rows[0];
+  },
+  /******************* End Sport ****************/
+
+  /******************* Level ********************/
+  async getLevel(obj) {
+    const query = `SELECT * FROM "level" WHERE "name"=$1`;
+    const results = await client.query(query, [obj.level]);
+    return results.rows[0];
+  },
+  /******************* End Level ****************/
 };
 
 module.exports = dataMapper;
