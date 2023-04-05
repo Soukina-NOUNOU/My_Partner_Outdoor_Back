@@ -114,7 +114,6 @@ const userController = {
     res.status(200).json(`User with id : ${id} has been deleted`);
   },
 
-  
   // Login one user
   async login (req, res, next) {
     const { email, password } = req.body;
@@ -140,8 +139,8 @@ const userController = {
     req.session.user = '';
     res.status(200);
   },
-
-  async getOneUserAddress (req, res, next) {
+  // 
+  async getUserAddress (req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.userHasAddress(id);
     
@@ -153,7 +152,6 @@ const userController = {
   res.status(200).json(results); 
   },
 
- 
 };
 
 module.exports = userController;
