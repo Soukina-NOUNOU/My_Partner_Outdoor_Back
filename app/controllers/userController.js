@@ -36,7 +36,7 @@ const userController = {
   },
 
   // Modify one user
-  async mofify (req, res, next) {
+  async modify (req, res, next) {
     const id = req.params.id;
     const newUserData = req.body;
 
@@ -111,7 +111,7 @@ const userController = {
 
     const userSession = {email: resultsEmail.email, password: resultsPassword.password}
     req.session.user = userSession;
-    res.render('test');
+    res.status(200).json('ok');
 
   },
 

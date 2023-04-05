@@ -20,11 +20,26 @@ const router = express.Router();
  * 
  */
 
-router.get('/login', (req, res) => {
-  res.render('login');
-});
-router.post('/login', catchErrors(userController.login));
+/**
+ * Models type of UserLogin
+ * @typedef UserLogin
+ * @property {string} email - jd.mail.fr
+ * @property {string} password - 1234
+ * 
+ */
 
+/**
+ * Create a User
+ * @route POST /user/login
+ * @group User - Operations about userLogin
+ * @param {UserLogin.model} data.body.required - email, password
+ * @returns {object} 200 - An object with "result" user login
+ * @returns {Error} 400 - Category must be a number
+ * @returns {Error} 400 - {field} can't be empty or must be text
+ * @returns {Error} 404 - Page not found "user was not found"
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.post('/login', catchErrors(userController.login));
 
 /**
  * Shows a User by its id
@@ -49,7 +64,7 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.patch('/:id', catchErrors(userController.mofify));
+router.patch('/:id', catchErrors(userController.modify));
 
 /**
  * Delete a User
@@ -69,7 +84,6 @@ router.delete('/:id', catchErrors(userController.delete));
  * @group User - Operations about user
  * @param {User.model} data.body.required - firstname, lastname, email, password, pseudo, picture, birthday, bio
  * @returns {object} 200 - An object with "result" user create
- * @returns {Error} 400 - Category must be a number
  * @returns {Error} 400 - {field} can't be empty or must be text
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
