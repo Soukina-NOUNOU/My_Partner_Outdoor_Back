@@ -17,9 +17,9 @@ const router = express.Router();
  * @property {number} price - event price
  * @property {string} picture - event picture
  * @property {integer} organizer_id - event organizer_id
- * @property {string} number - event address number
+ * @property {integer} number - event address number
  * @property {string} street - event address street
- * @property {string} zip_code - event address zip_code
+ * @property {integer} zip_code - event address zip_code
  * @property {string} city - event address city
  * @property {string} sport - event sport
  * @property {string} level - event level
@@ -112,6 +112,6 @@ router.delete('/:id', catchErrors(eventController.delete));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.post('/',  catchErrors(eventController.create));
-// validate(postSchema, 'body'),
+router.post('/', validate(postSchema, 'body'), catchErrors(eventController.create));
+
 module.exports = router;

@@ -5,13 +5,13 @@ const dataMapper = {
   /******************* User **********************/
   // Select one user
   async userFindByPk(id) {
-    // const query = `SELECT * FROM "user" WHERE "id"=$1`;
-    const query = `
-    SELECT * FROM "user_has_address"
-    JOIN address ON user_has_address.address_id = address.id 
-    JOIN "user" ON user_has_address.user_id = "user".id 
-    WHERE "user".id=$1
-    `;
+    const query = `SELECT * FROM "user" WHERE "id"=$1`;
+    // const query = `
+    // SELECT * FROM "user_has_address"
+    // JOIN address ON user_has_address.address_id = address.id 
+    // JOIN "user" ON user_has_address.user_id = "user".id 
+    // WHERE "user".id=$1
+    // `;
     const results = await client.query(query, [id]);
     return results.rows[0];
   },
