@@ -41,14 +41,20 @@ router.get('/:id/users', catchErrors(eventController. getEventUsers)),
 /**
  * Models type of EventPatch
  * @typedef EventPatch
- * @property {string} title - event title
- * @property {string} description - event description
- * @property {timestamp} start - event start
- * @property {timestamp} finish - event finish
- * @property {integer} nb_participant - event nb_participant
- * @property {string} equipement - event equipement
- * @property {number} price - event price
- * @property {string} picture - event picture
+ * @property {string} title - Title
+ * @property {string} description - Description
+ * @property {timestamp} start - Event start time
+ * @property {timestamp} finish - Event finish time
+ * @property {integer} nb_participant - Nombre participant
+ * @property {string} equipement - Equipement
+ * @property {number} price - Price
+ * @property {string} picture - Picture
+ * @property {string} number - Address number
+ * @property {string} street - Address street
+ * @property {string} zip_code - Address zip_code
+ * @property {string} city - Address city
+ * @property {string} level - Level (Débutant, Intermediaire, Confirmé)
+ * @property {string} sport - Sport (FootBall, VolleyBall, BasketBall, PingPong, Tennis, Velo, Badminton)
  * 
  */
 router.post('/:id/:userid', catchErrors(eventController.CreateEventAsUser));

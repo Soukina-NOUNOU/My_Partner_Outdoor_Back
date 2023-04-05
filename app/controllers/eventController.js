@@ -30,7 +30,9 @@ const eventController = {
     };
 
     // Add organizer to event list user
-    const eventHasUser = await dataMapper.eventCreateHasUser(results);
+    const eventId = results.id;
+    const userId = results.organizer_id;
+    const eventHasUser = await dataMapper.eventCreateHasUser(eventId, userId);
     if(!eventHasUser) {
       const err = new APIError(`Can not associate event_has_user`, 400);
       return next(err);
@@ -55,29 +57,69 @@ const eventController = {
 
   // Modify one Event
   async modify (req, res, next) {
-  const id = req.params.id;
-  const event = req.body;
-  const result = await dataMapper.eventModify(id, event);
+    const id = req.params.id;
+    const newEventData = req.body;
 
-  if (!result) {
-    const err = new APIError(`Can not update event`, 400);
-    return next(err);
-  }
-  res.status(200).json(result);
+    // Compare old and new data
+    const event = await dataMapper.eventFindByPk(id);
+    const fields = ['title', 'description', 'start', 'finish', 'nb_participant', 'equipement', 'price', 'picture', 'number', 'street', 'zip_code', 'city', 'level', 'sport'];
+    fields.forEach(field => {
+      if (newEventData[field]) {
+        event[field] = newEventData[field];
+      }
+    });
+
+    // Update address
+    // Check if we have some fields to update
+    const fieldsAddress = ['number', 'street', 'zip_code', 'city'];
+    let checkFields = 0;
+    fieldsAddress.forEach(field => {
+      if (newEventData[field]) {
+        checkFields++;
+      }
+    });
+    // If we have at least one field to change we update
+    if (checkFields > 0) {
+      const address = await dataMapper.addressModify(event);
+      if (!address) {
+        const err = new APIError(`Can not update address`, 400);
+        return next(err);
+      };
+    };
+
+    // If we need to update Sport, Return selected sport
+    if (newEventData.sport) {
+      const sport = await dataMapper.getSport(event);
+      event.sport_id = sport.id
+    }
+    
+    // If we need to update Level, Return selected level
+    if (newEventData.level) {
+      const level = await dataMapper.getLevel(event);
+      event.level_id = level.id
+    }
+    
+    // Update Event
+    const results = await dataMapper.eventModify(id, event);
+    if (!results) {
+      const err = new APIError(`Can not update event`, 400);
+      return next(err);
+    };
+    res.status(200).json(results);
   },
   // Delete one Event
-  //TODO Check le retour avec rowCount
+  //TODO Check le retour avec rowCount !!! Gérer la supression des association avant suppression !!!
   async delete(req, res, next) {
     const id = req.params.id;
   
     const result = await dataMapper.eventDelete(id);
   
-    if (!result) {
+    if (result !== 1) {
       const err = new APIError(`Can not delete event with id ${id}`, 400);
       return next(err);
     }
   
-    res.status(200).json(result);
+    res.status(200).json(`Event with id : ${id} has been deleted`);
   },
   // Return list of random events
   async getRandom (req, res, next) {
