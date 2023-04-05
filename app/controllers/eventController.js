@@ -3,6 +3,7 @@ const APIError = require('../middlewares/handlers/APIError');
 
 const eventController = {
   // Return one Event
+  //TODO Delete password
   async getOne (req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.eventFindByPk(id);
@@ -44,7 +45,7 @@ const eventController = {
   // Add user to event list
   async CreateEventAsUser (req, res, next) {
     const eventId = req.params.id;
-    const userId = req.params.userid 
+    const userId = req.params.userid;
     const results = await dataMapper.eventCreateHasUser(eventId, userId);
     
     if (!results) {
@@ -53,7 +54,6 @@ const eventController = {
     }
     res.status(200).json(results);
   },
-
 
   // Modify one Event
   async modify (req, res, next) {
@@ -91,13 +91,13 @@ const eventController = {
     if (newEventData.sport) {
       const sport = await dataMapper.getSport(event);
       event.sport_id = sport.id
-    }
+    };
     
     // If we need to update Level, Return selected level
     if (newEventData.level) {
       const level = await dataMapper.getLevel(event);
       event.level_id = level.id
-    }
+    };
     
     // Update Event
     const results = await dataMapper.eventModify(id, event);

@@ -80,7 +80,7 @@ const dataMapper = {
     JOIN "address" ON user_has_address.address_id = "address".id
     WHERE "user_id"=$1`;
     const results = await client.query(query, [id]);
-    return results.rows[0];
+    return results.rows;
   },
   
   /******************* End User ******************/

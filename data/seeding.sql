@@ -47,7 +47,11 @@ VALUES
 INSERT INTO "message"
 ("content", "user_id", "event_id")
 VALUES
-('Hello alors on est en forme ?', 1, 1);
+('Hello alors on est en forme ?', 1, 1),
+('Hello  on est en forme ?', 1, 2),
+('Hello alors  en forme ?', 1, 3),
+('Hello  forme ?', 1, 2),
+('Hello  ?', 1, 1);
 
 INSERT INTO "event_has_user"
 ("event_id", "user_id")
