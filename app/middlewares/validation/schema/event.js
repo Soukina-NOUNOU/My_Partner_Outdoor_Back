@@ -2,13 +2,13 @@ const Joi = require('joi');
 
 const schemas = {
     post: Joi.object({
-        id: Joi.number().integer().optional(),
+        id: Joi.number().integer(),
         title: Joi.string().required(),
-        description: Joi.string().optional(),
-        start: Joi.date().optional(),
-        finish: Joi.date().optional(),
+        description: Joi.string().required(),
+        start: Joi.date().required(),
+        finish: Joi.date().required(),
         nb_participant: Joi.number().integer().required(),
-        equipement: Joi.string(),
+        equipement: Joi.string().optional(),
         price: Joi.number().optional(),
         picture: Joi.string(),
         organizer_id: Joi.number().integer().required(),

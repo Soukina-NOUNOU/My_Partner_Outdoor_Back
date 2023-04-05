@@ -40,6 +40,21 @@ const eventController = {
 
     res.status(200).json(results); 
   },
+
+  // Add user to event list
+  async CreateEventAsUser (req, res, next) {
+    const eventId = req.params.id;
+    const userId = req.params.userid 
+    const results = await dataMapper.eventCreateHasUser(eventId, userId);
+    
+    if (!results) {
+      const err = new APIError(`Can not update event`, 400);
+      return next(err);
+    }
+    res.status(200).json(results);
+  },
+
+
   // Modify one Event
   async modify (req, res, next) {
     const id = req.params.id;
@@ -144,6 +159,17 @@ const eventController = {
       res.status(200).json(resultsWithDept);
     }
   },
+  // Return users in one Event
+  async getEventUsers (req, res, next){
+      const eventId = req.params.id;
+      const results = await dataMapper.eventHasUser(eventId);
+      
+      if (!results) {
+        const err = new APIError(`Can not update event`, 400);
+        return next(err);
+      }
+      res.status(200).json(results);
+    },
   
 };
 

@@ -17,14 +17,26 @@ const router = express.Router();
  * @property {number} price - event price
  * @property {string} picture - event picture
  * @property {integer} organizer_id - event organizer_id
- * @property {string} number - event address number
+ * @property {integer} number - event address number
  * @property {string} street - event address street
- * @property {string} zip_code - event address zip_code
+ * @property {integer} zip_code - event address zip_code
  * @property {string} city - event address city
  * @property {string} sport - event sport
  * @property {string} level - event level
  * 
  */
+
+/**
+ * Shows Users in event
+ * @route GET /event/{id}/users
+ * @group Event - Operations about event
+ * @param {integer} id.path.required - Event ID - Event ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.get('/:id/users', catchErrors(eventController. getEventUsers)),
 
 /**
  * Models type of EventPatch
@@ -45,6 +57,7 @@ const router = express.Router();
  * @property {string} sport - Sport (FootBall, VolleyBall, BasketBall, PingPong, Tennis, Velo, Badminton)
  * 
  */
+router.post('/:id/:userid', catchErrors(eventController.CreateEventAsUser));
 
 /**
  * Shows random events
