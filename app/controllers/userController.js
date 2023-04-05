@@ -18,7 +18,6 @@ const userController = {
   },
 
   // Create one user
-  //TODO Check confirm password
   async create (req, res, next) {
     const user = req.body;
 
@@ -32,11 +31,21 @@ const userController = {
       return next(err);
     };
 
+    // Return selected sport
+    const sport = await dataMapper.getSport(user);
+
+    // Add Sport to user list sport
+    const userHasSport = await dataMapper.userCreateHasSport(results, sport);
+    if(!userHasSport) {
+      const err = new APIError(`Can not associate user_has_sport`, 400);
+      return next(err);
+    };
+
     res.status(200).json(results);
   },
 
   // Modify one user
-  async mofify (req, res, next) {
+  async modify (req, res, next) {
     const id = req.params.id;
     const newUserData = req.body;
 
@@ -48,6 +57,13 @@ const userController = {
         user[field] = newUserData[field];
       }
     });
+    // If we need to Update password
+    if (newUserData.password) {
+      const saltRounds = 10;
+      const salt = await bcrypt.genSalt(saltRounds);
+      const hash = await bcrypt.hash(newUserData.password, salt);
+      user.password = hash;
+    }
     // Check if we have all address fields
     const fieldsAddress = ['number', 'street', 'zip_code', 'city'];
     let checkFields = 0;
@@ -56,6 +72,11 @@ const userController = {
         checkFields++;
       }
     });
+    // If all fields to create address return error
+    if (checkFields > 0 && checkFields < 4) {
+      const err = new APIError(`Missing fields to modify address for user with id : ${id}`, 400);
+      return next(err);
+    }
     // If we have all fields we create Address
     if (checkFields === 4) {
       const address = await dataMapper.addressCreate(newUserData);
@@ -81,16 +102,16 @@ const userController = {
     res.status(200).json(results);
   },
   // Delete one user
-  //TODO Check le retour avec rowCount
+  //TODO Check le retour avec rowCount !!! Gérer la supression des association avant suppression !!!
   async delete (req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.userDelete(id);
-    if(!results) {
-      const err = new APIError(`Can not delete a user profil`, 400);
+    if(results !== 1) {
+      const err = new APIError(`Can not delete User`, 400);
       return next(err);
     };
 
-    res.status(200).json(results);
+    res.status(200).json(`User with id : ${id} has been deleted`);
   },
 
   

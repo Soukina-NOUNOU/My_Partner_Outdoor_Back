@@ -1,35 +1,25 @@
 const client = require("../utils/dbConnect");
-const bcrypt = require('bcrypt');
 
 const dataMapper = {
   /******************* User **********************/
   // Select one user
   async userFindByPk(id) {
-    // const query = `SELECT * FROM "user" WHERE "id"=$1`;
-    const query = `
-    SELECT * FROM "user_has_address"
-    JOIN address ON user_has_address.address_id = address.id 
-    JOIN "user" ON user_has_address.user_id = "user".id 
-    WHERE "user".id=$1
-    `;
+    const query = `SELECT * FROM "user" WHERE "id"=$1`;
     const results = await client.query(query, [id]);
     return results.rows[0];
   },
   // Create one user
   async userCreate(user, password) {
     const query = `INSERT INTO "user" 
-      (firstname, lastname, email, password, pseudo, picture, birthday, bio)
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+      (firstname, lastname, email, password, pseudo)
+      VALUES ($1,$2,$3,$4,$5)
       RETURNING *`;
     let values = [
       user.firstname,
       user.lastname,
       user.email,
       password,
-      user.pseudo,
-      user.picture,
-      user.birthday,
-      user.bio,
+      user.pseudo
     ];
     const results = await client.query(query, values);
     return results.rows[0];
@@ -58,12 +48,7 @@ const dataMapper = {
   async userDelete(id) {
     const query = `DELETE FROM "user" WHERE "id"=$1`;
     const results = await client.query(query, [id]);
-    if (results.rowCount === 1) {
-    return results.rowCount = `user has been deleted`
-    } 
-    else {
-    return results.rowCount = `user can not be deleted`
-    };
+    return results.rowCount;
   },
   // Login one user
   async userLogin(email) {
@@ -80,13 +65,30 @@ const dataMapper = {
     const results = await client.query(query, values);
     return results.rows[0];
   },
+  // Create association User Has Sport
+  async userCreateHasSport(user, sport) {
+    const query = `INSERT INTO "user_has_sport"(user_id, sport_id)
+    VALUES ($1, $2)
+    RETURNING *`;
+    const values = [user.id, sport.id];
+    const results = await client.query(query, values);
+    return results.rows[0];
+  },
   
   /******************* End User ******************/
 
   /******************* Event *********************/
   // Select one event
   async eventFindByPk(id) {
-    const query = `SELECT * FROM "event" WHERE "id"=$1`;
+    // const query = `SELECT * FROM "event" WHERE "id"=$1`;
+    const query = `
+      SELECT *, level.name AS level, sport.name AS sport FROM "event"
+      JOIN "sport" ON event.sport_id = sport.id
+      JOIN "address" ON event.address_id = address.id
+      JOIN "level" ON event.level_id = level.id
+      JOIN "user" ON event.organizer_id = "user".id 
+      WHERE event.id=$1
+      `;
     const results = await client.query(query, [id]);
     return results.rows[0];
   },
@@ -121,11 +123,14 @@ const dataMapper = {
         start = $3,
         finish = $4,
         nb_participant = $5,
-        organizer_id = $6,
-        sport_id = $7,
-        level_id = $8,
-        address_id = $9
-      WHERE id = $10
+        equipement = $6,
+        price = $7,
+        picture = $8,
+        organizer_id = $9,
+        sport_id = $10,
+        level_id = $11,
+        address_id = $12
+      WHERE id = $13
       RETURNING *;
     `;
     const values = [
@@ -151,12 +156,7 @@ const dataMapper = {
     const query = `DELETE FROM "event" WHERE id = $1`;
     const values = [id];
     const results = await client.query(query, values);
-    if (results.rowCount === 1) {
-      return results.rowCount = `event has been deleted`
-    } 
-    else {
-      return results.rowCount = `event can not be deleted`
-    };
+    return results.rowCount;
   },
   // Select random events
   async eventFindRandom() {
@@ -179,11 +179,11 @@ const dataMapper = {
     return results.rows;
   },
   // Create association Event Has User
-  async eventCreateHasUser(event) {
+  async eventCreateHasUser(eventId, userId) {
     const query = `INSERT INTO "event_has_user"(event_id, user_id)
     VALUES ($1, $2)
     RETURNING *`;
-    const values = [event.id, event.organizer_id];
+    const values = [eventId, userId];
     const results = await client.query(query, values);
     return results.rows[0];
   },
@@ -195,6 +195,15 @@ const dataMapper = {
     VALUES ($1, $2, $3, $4)
     RETURNING *`;
     const values = [address.number, address.street, address.zip_code, address.city];
+    const results = await client.query(query, values);
+    return results.rows[0];
+  },
+  async addressModify (address) {
+    const query = `UPDATE "address" 
+      SET number=$1, street=$2, zip_code=$3, city=$4, updated_at=NOW() 
+      WHERE id=$5 
+      RETURNING *`;
+    const values = [address.number, address.street, address.zip_code, address.city, address.address_id];
     const results = await client.query(query, values);
     return results.rows[0];
   },
