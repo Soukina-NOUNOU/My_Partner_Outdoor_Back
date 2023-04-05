@@ -1,6 +1,5 @@
 const dataMapper = require ('../models/dataMapper');
-// const APIError = require('../middlewares/handlers/APIError');
-const { errorId } = require('../middlewares/handlers/errorHandlers');
+const APIError = require('../middlewares/handlers/APIError');
 const bcrypt = require('bcrypt');
 
 const userController = {
@@ -11,9 +10,8 @@ const userController = {
     const results = await dataMapper.userFindByPk(id);
     
     if(!results) {
-    const err = new Error(`Can not find user with id : ${id}`);
-    err.statusCode = 404;
-    return next(err);
+      const err = new APIError(`Can not find user with id : ${id}`, 400);
+      return next(err);
   };
 
   res.status(200).json(results); 

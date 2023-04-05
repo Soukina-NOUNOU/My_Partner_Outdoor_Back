@@ -16,14 +16,5 @@ exports.errorsCollector = (error, req, res, next) => {
     return res.status(status).json(`${error}`);
 }
 
-exports.errorId = (req, res, next) => {
-    const id = req.params.id;
-    if (!id || isNaN(id)) {
-      const err = new Error('Invalid ID');
-      err.statusCode = 400;
-      return next(err);
-    }
-    next();
-}
 
 
