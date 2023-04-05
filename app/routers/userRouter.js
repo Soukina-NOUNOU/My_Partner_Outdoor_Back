@@ -2,7 +2,7 @@ const express = require('express');
 const userController = require ('../controllers/userController');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
-const { post: postSchema, get: getSchema } = require('../middlewares/validation/schema/user');
+const { post: postSchema, path: patchSchema ,get: getSchema } = require('../middlewares/validation/schema/user');
 const router = express.Router();
 
 
@@ -54,6 +54,19 @@ router.post('/login', catchErrors(userController.login));
  router.get('/:id', validate(getSchema, 'params'), catchErrors(userController.getOne));
 
 /**
+ * Shows a User's Address by User ID
+ * @route GET /user/{id}/address
+ * @group User - Operations about user profile
+ * @param {integer} id.path.required - User ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request "user id or data is invalid"
+ * @returns {Error} 404 - Page not found "user address was not found"
+ * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
+*/
+
+ router.get('/:id/address', catchErrors(userController.getOneUserAddress));
+
+/**
  * Modify a User by its id
  * @route patch /user/{id}
  * @group User - Operations about user profil
@@ -64,7 +77,8 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.patch('/:id', catchErrors(userController.modify));
+
+router.patch('/:id', validate(patchSchema, 'body'), catchErrors(userController.modify));
 
 /**
  * Delete a User

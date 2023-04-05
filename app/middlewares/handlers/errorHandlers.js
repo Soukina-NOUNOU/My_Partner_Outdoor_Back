@@ -15,3 +15,6 @@ exports.errorsCollector = (error, req, res, next) => {
     error.status = status;
     return res.status(status).json(`${error}`);
 }
+
+
+

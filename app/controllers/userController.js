@@ -118,7 +118,20 @@ const userController = {
   logout (req, res) {
     req.session.user = '';
     res.status(200);
-  }
+  },
+
+  async getOneUserAddress (req, res, next) {
+    const id = req.params.id;
+    const results = await dataMapper.userHasAddress(id);
+    
+    if(!results) {
+      const err = new APIError(`Can not find address user with id : ${id}`, 400);
+      return next(err);
+  };
+
+  res.status(200).json(results); 
+  },
+
  
 };
 
