@@ -38,6 +38,8 @@ router.post('/login', catchErrors(userController.login));
  */
  router.get('/:id', validate(getSchema, 'params'), catchErrors(userController.getOne));
 
+ router.get('/:id/address', catchErrors(userController.getOneUserAddress));
+
 /**
  * Modify a User by its id
  * @route patch /user/{id}
