@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const schemas = {
     post: Joi.object({
-        id: Joi.number().integer().required(),
+        id: Joi.number().integer(),
         title: Joi.string().required(),
         description: Joi.string().required(),
         start: Joi.date().required(),

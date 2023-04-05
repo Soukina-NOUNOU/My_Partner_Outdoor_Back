@@ -111,7 +111,7 @@ const userController = {
 
     const userSession = {email: resultsEmail.email, password: resultsPassword.password}
     req.session.user = userSession;
-    res.render('test');
+    res.status(200).json('ok');
 
   },
 
