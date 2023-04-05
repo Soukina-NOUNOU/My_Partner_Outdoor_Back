@@ -179,13 +179,22 @@ const dataMapper = {
     return results.rows;
   },
   // Create association Event Has User
-  async eventCreateHasUser(event) {
+  async eventCreateHasUser(eventId, userId) {
     const query = `INSERT INTO "event_has_user"(event_id, user_id)
     VALUES ($1, $2)
     RETURNING *`;
-    const values = [event.id, event.organizer_id];
+    const values = [eventId, userId];
     const results = await client.query(query, values);
     return results.rows[0];
+  },
+  // Get users in Event
+  async eventHasUser (eventId) {
+    const query = `SELECT * FROM event_has_user
+    JOIN "user" ON event_has_user.user_id = "user".id
+    WHERE event_id = $1
+    ORDER BY pseudo ASC`;
+    const results = await client.query(query, [eventId]);
+    return results.rows;
   },
   /******************* End Event *****************/
 
