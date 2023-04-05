@@ -18,6 +18,7 @@ const schemas = {
         lastname: Joi.string().optional(),
         email: Joi.string().pattern(/^([a-zA-Z0-9.\-_]{1,64}@[a-zA-Z0-9]+\.[a-zA-Z]{1,63}){1,255}$/).optional(),
         password: Joi.string().pattern(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).optional(),
+        old_password: Joi.string().pattern(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).optional(),
         repeat_password: Joi.ref('password'),
         pseudo: Joi.string().optional(),
         picture: Joi.string().optional(),
