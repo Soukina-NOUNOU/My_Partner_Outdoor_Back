@@ -69,7 +69,7 @@ router.get('/:id/users', catchErrors(eventController. getEventUsers)),
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.post('/:id/:userid', catchErrors(eventController.CreateEventAsUser));
+router.post('/:id/:userid', catchErrors(eventController.createEventAsUser));
 
 /**
  * Shows random events

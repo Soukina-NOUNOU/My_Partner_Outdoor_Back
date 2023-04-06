@@ -102,7 +102,6 @@ const userController = {
     res.status(200).json(results);
   },
   // Delete one user
-  //TODO Check le retour avec rowCount !!! Gérer la supression des association avant suppression !!!
   async delete (req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.userDelete(id);
@@ -117,21 +116,21 @@ const userController = {
   // Login one user
   async login (req, res, next) {
     const { email, password } = req.body;
-    const resultsEmail = await dataMapper.userLogin(email);
-    if(!resultsEmail) {
+    const user = await dataMapper.userLogin(email);
+    if(!user) {
       const err = new APIError(`Can not login user Invalid email`, 400);
       return next(err);
     };
 
-    const resultsPassword = await bcrypt.compare(password, resultsEmail.password)
+    const resultsPassword = await bcrypt.compare(password, user.password)
     if(!resultsPassword) {
       const err = new APIError(`Can not login user Invalid password`, 400);
       return next(err);
     };
 
-    const userSession = {email: resultsEmail.email, password: resultsPassword.password}
+    const userSession = { email: user.email }
     req.session.user = userSession;
-    res.status(200).json('ok');
+    res.status(200).json('User connected');
 
   },
 
@@ -139,7 +138,7 @@ const userController = {
     req.session.user = '';
     res.status(200);
   },
-  // 
+  // Return all user address
   async getUserAddress (req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.userHasAddress(id);
@@ -151,7 +150,31 @@ const userController = {
 
   res.status(200).json(results); 
   },
+  // Delete user address
+  async deleteAddress (req, res, next) {
+    const id = req.params.id;
+    const addressId = req.params.addressid;
+    const results = await dataMapper.userDeleteAddress(id, addressId);
+    if(results !== 1) {
+      const err = new APIError(`Can not delete Address`, 400);
+      return next(err);
+    };
 
+    res.status(200).json(`Address with id : ${id} has been deleted`);
+  },
+  // Delete user sport
+  async deleteSport (req, res, next) {
+    const id = req.params.id;
+    const sportId = req.params.sportid;
+
+    const results = await dataMapper.userDeleteSport(id, sportId);
+    if(results !== 1) {
+      const err = new APIError(`Can not delete Sport`, 400);
+      return next(err);
+    };
+
+    res.status(200).json(`Sport with id : ${id} has been deleted`);
+  },
 };
 
 module.exports = userController;

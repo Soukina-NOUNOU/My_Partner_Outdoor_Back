@@ -45,6 +45,33 @@ const router = express.Router();
  * 
  */
 
+
+/**
+ * Delete sport of user
+ * @route DELETE /user/{id}/sport/{sportid}
+ * @group User - Operations about user
+ * @param {integer} id.path.required - Usert ID - User ID
+ * @param {integer} sportid.path.required - sport ID - sport ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.delete('/:id/sport/:sportid', catchErrors(userController.deleteSport));
+
+/**
+ * Delete addres of user
+ * @route DELETE /user/{id}/address/{addressid}
+ * @group User - Operations about user
+ * @param {integer} id.path.required - Usert ID - User ID
+ * @param {integer} addressid.path.required - Address ID - Address ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.delete('/:id/address/:addressid', catchErrors(userController.deleteAddress));
+
 /**
  * Shows a User's Address by User ID
  * @route GET /user/{id}/address
