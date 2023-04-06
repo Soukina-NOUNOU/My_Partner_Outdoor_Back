@@ -43,7 +43,7 @@ const eventController = {
   },
 
   // Add user to event list
-  async CreateEventAsUser (req, res, next) {
+  async createEventAsUser (req, res, next) {
     const eventId = req.params.id;
     const userId = req.params.userid;
     const results = await dataMapper.eventCreateHasUser(eventId, userId);
@@ -170,7 +170,30 @@ const eventController = {
       }
       res.status(200).json(results);
     },
-  
+  // Return messages in one Event
+  async getMessages (req, res, next){
+    const eventId = req.params.id;
+    const messages = req.body;
+    const results = await dataMapper.eventFindAllMessages(eventId, messages);
+
+    if (!results) {
+      const err = new APIError(`Can not return messages`, 400);
+      return next(err);
+    }
+    res.status(200).json(results);
+  },
+  // Create message in one Event
+  async createMessage (req, res, next) {
+    const message = req.body;
+    const id = req.params.id;
+    const results = await dataMapper.createEventMessage(message, id);
+    if (!results) {
+      const err = new APIError(`Can not create message`, 400);
+      return next(err);
+    }
+    res.status(200).json(results);
+  },
+
 };
 
 module.exports = eventController;
