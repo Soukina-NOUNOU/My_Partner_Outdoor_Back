@@ -6,6 +6,7 @@ const { errorsCollector, notFound } = require('./app/middlewares/handlers/errorH
 const expressSwagger = require('express-swagger-generator')(app);
 const confSwagger = require('./app/utils/swagger');
 const session = require('express-session');
+const cors = require('cors');
 
 const PORT = process.env.PORT || 5000;
 const BASE_URL = process.env.BASE_URL;
@@ -35,6 +36,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use(router);
 

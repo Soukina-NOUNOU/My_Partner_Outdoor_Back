@@ -90,7 +90,9 @@ const dataMapper = {
   async eventFindByPk(id) {
     // const query = `SELECT * FROM "event" WHERE "id"=$1`;
     const query = `
-      SELECT *, level.name AS level, sport.name AS sport FROM "event"
+      SELECT event.id, event.title, event.description, event.start, event.finish, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
+      address.number, address.street, address.zip_code, address.city, "user".pseudo, sport.name AS sport, level.name AS level 
+      FROM "event"
       JOIN "sport" ON event.sport_id = sport.id
       JOIN "address" ON event.address_id = address.id
       JOIN "level" ON event.level_id = level.id
@@ -168,20 +170,31 @@ const dataMapper = {
   },
   // Select random events
   async eventFindRandom() {
-    const query = `SELECT * FROM "event" ORDER BY RANDOM () LIMIT 3`;
+    const query = `
+      SELECT event.id, event.title, event.description, event.start, event.finish, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
+      address.number, address.street, address.zip_code, address.city, "user".pseudo, sport.name AS sport, level.name AS level 
+      FROM "event"
+      JOIN "sport" ON event.sport_id = sport.id
+      JOIN "address" ON event.address_id = address.id
+      JOIN "level" ON event.level_id = level.id
+      JOIN "user" ON event.organizer_id = "user".id 
+      ORDER BY RANDOM () LIMIT 3
+      `;
     const results = await client.query(query);
     return results.rows;
   },
   // Select events by search
   async eventFindSearch(search) {
     const query = `
-    SELECT *, level.name AS level, sport.name AS sport FROM "event"
+    SELECT event.id, event.title, event.description, event.start, event.finish, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
+    address.number, address.street, address.zip_code, address.city, "user".pseudo, sport.name AS sport, level.name AS level 
+    FROM "event"
     JOIN "sport" ON event.sport_id = sport.id
     JOIN "address" ON event.address_id = address.id
     JOIN "level" ON event.level_id = level.id
-    JOIN "user" ON event.organizer_id = "user".id
+    JOIN "user" ON event.organizer_id = "user".id 
     WHERE LOWER(sport.name) LIKE LOWER($1)
-  `;
+    `;
     search = `%${search}%`;
     const results = await client.query(query, [search]);
     return results.rows;
