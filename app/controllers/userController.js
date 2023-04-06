@@ -128,10 +128,11 @@ const userController = {
       return next(err);
     };
 
-    const userSession = { email: user.email }
-    req.session.user = userSession;
-    res.status(200).json('User connected');
+    // Delete password key
+    delete user.password;
+    req.session.user = user;
 
+    res.status(200).json(user);
   },
 
   logout (req, res) {
@@ -139,12 +140,24 @@ const userController = {
     res.status(200);
   },
   // Return all user address
-  async getUserAddress (req, res, next) {
+  async getUserHasAddress (req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.userHasAddress(id);
     
     if(!results) {
       const err = new APIError(`Can not find address user with id : ${id}`, 400);
+      return next(err);
+  };
+
+  res.status(200).json(results); 
+  },
+  // Return all user events
+  async getUserHasEvents (req, res, next) {
+    const id = req.params.id;
+    const results = await dataMapper.userHasEvents(id);
+    
+    if(!results) {
+      const err = new APIError(`Can not find events for user with id : ${id}`, 400);
       return next(err);
   };
 
