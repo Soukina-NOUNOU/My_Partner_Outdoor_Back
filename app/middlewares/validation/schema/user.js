@@ -24,7 +24,7 @@ const schemas = {
         repeat_password: Joi.ref('password'),// repeat password
         pseudo: Joi.string().optional(), //changing pseudo is optional
         picture: Joi.string().optional(), //changing picture is optional 
-        birthday: Joi.string().pattern(/^[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}$/).optional(),
+        birthday: Joi.string().pattern(/^[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}$/).optional(),//birthday is optional but must respect a specific format: (12/12/2012)
         bio: Joi.string().max(500).allow('').optional(),  // The biographie is optional and must not exceed 500 characters
         number: Joi.number().integer().optional(), //changing number is optional
         street: Joi.string().optional(), //changing street is optional
