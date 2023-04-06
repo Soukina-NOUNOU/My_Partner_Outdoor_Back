@@ -60,10 +60,10 @@ router.get('/:id/users', catchErrors(eventController. getEventUsers)),
 
 /**
  * Add user in one event
- * @route POST /event/{id}/{id}
+ * @route POST /event/{id}/{userid}
  * @group Event - Operations about event
  * @param {integer} id.path.required - Event ID - Event ID
- * @param {integer} id.path.required - User ID - User ID
+ * @param {integer} userid.path.required - User ID - User ID
  * @returns {object} 200 - An object with "result"
  * @returns {Error} 400 - Bad request
  * @returns {Error} 404 - Page not found
