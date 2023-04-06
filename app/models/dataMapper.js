@@ -229,6 +229,25 @@ const dataMapper = {
     const results = await client.query(query, [eventId]);
     return results.rows;
   },
+  // Get messages in Event
+  async eventFindAllMessages (messages) {
+    const query = `SELECT event.id AS eventid, message.id AS messageid, message.user_id AS userid, message.content, message.created_at, "user".pseudo 
+    FROM "event"
+    JOIN "message" ON message.event_id = event.id
+    JOIN "user" ON message.user_id = "user".id
+    WHERE event.id=$1`;
+    const results = await client.query(query, [messages]);
+    return results.rows;
+  },
+  // Create message in Event
+  async createEventMessage (message, id) {
+    const query = `INSERT INTO "message"(content, user_id, event_id)
+    VALUES ($1, $2, $3)
+    RETURNING *`;
+    const values = [message.content, message.user_id, id];
+    const results = await client.query(query, values)
+    return results.rows[0];
+  },
   /******************* End Event *****************/
 
   /******************* Address ******************/

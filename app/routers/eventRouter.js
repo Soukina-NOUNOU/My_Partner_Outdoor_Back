@@ -2,7 +2,7 @@ const express = require('express');
 const eventController = require ('../controllers/eventController');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
-const { post: postSchema, get: getSchema, path: pathSchema } = require('../middlewares/validation/schema/event');
+const { post: postSchema, get: getSchema, path: patchSchema } = require('../middlewares/validation/schema/event');
 const router = express.Router();
 
 /**
@@ -47,6 +47,28 @@ const router = express.Router();
  */
 
 /**
+ * Models type of EventMessagePost
+ * @typedef EventMessagePost
+ * @property {string} content - Content
+ * @property {integer} user_id - user_id
+ * @property {integer} event_id - event_id
+ * 
+ */
+
+/**
+ * Add user in one event
+ * @route POST /event/{id}/user/{userid}
+ * @group Event - Operations about event
+ * @param {integer} id.path.required - Event ID - Event ID
+ * @param {integer} userid.path.required - User ID - User ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.post('/:id/user/:userid', catchErrors(eventController.createEventAsUser));
+
+/**
  * Shows Users in event
  * @route GET /event/{id}/users
  * @group Event - Operations about event
@@ -59,17 +81,29 @@ const router = express.Router();
 router.get('/:id/users', catchErrors(eventController. getEventUsers)),
 
 /**
- * Add user in one event
- * @route POST /event/{id}/{userid}
- * @group Event - Operations about event
+ * Shows All messages event
+ * @route GET /event/{id}/messages
+ * @group Event - Operations about event message
  * @param {integer} id.path.required - Event ID - Event ID
- * @param {integer} userid.path.required - User ID - User ID
  * @returns {object} 200 - An object with "result"
  * @returns {Error} 400 - Bad request
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.post('/:id/:userid', catchErrors(eventController.createEventAsUser));
+router.get('/:id/messages', catchErrors(eventController.getMessages));
+
+/**
+ * Create a Event Message
+ * @route POST /event/{id}/message
+ * @group Event - Operations about event
+ * @param {EventMessagePost.model} data.body.required The event message to be created
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Event, User must be a number
+ * @returns {Error} 400 - {field} can't be empty or must be text
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.post('/:id/message', catchErrors(eventController.createMessage));
 
 /**
  * Shows random events
@@ -105,7 +139,7 @@ router.get('/s', catchErrors(eventController.getSearch));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.get('/:id', catchErrors(eventController.getOne));
+router.get('/:id', validate(getSchema, 'params'), catchErrors(eventController.getOne));
 
 /**
  * Update an existing event
@@ -118,7 +152,7 @@ router.get('/:id', catchErrors(eventController.getOne));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
  */
-router.patch('/:id', catchErrors(eventController.modify));
+router.patch('/:id', validate(patchSchema, 'body'), catchErrors(eventController.modify));
 
 /**
  * Deletes an event by its id
