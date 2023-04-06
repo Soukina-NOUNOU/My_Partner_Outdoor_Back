@@ -47,6 +47,28 @@ const router = express.Router();
  */
 
 /**
+ * Models type of EventMessagePost
+ * @typedef EventMessagePost
+ * @property {string} content - Content
+ * @property {integer} user_id - user_id
+ * @property {integer} event_id - event_id
+ * 
+ */
+
+/**
+ * Add user in one event
+ * @route POST /event/{id}/user/{userid}
+ * @group Event - Operations about event
+ * @param {integer} id.path.required - Event ID - Event ID
+ * @param {integer} userid.path.required - User ID - User ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.post('/:id/user/:userid', catchErrors(eventController.createEventAsUser));
+
+/**
  * Shows Users in event
  * @route GET /event/{id}/users
  * @group Event - Operations about event
@@ -59,17 +81,29 @@ const router = express.Router();
 router.get('/:id/users', catchErrors(eventController. getEventUsers)),
 
 /**
- * Add user in one event
- * @route POST /event/{id}/{userid}
- * @group Event - Operations about event
+ * Shows All messages event
+ * @route GET /event/{id}/messages
+ * @group Event - Operations about event message
  * @param {integer} id.path.required - Event ID - Event ID
- * @param {integer} userid.path.required - User ID - User ID
  * @returns {object} 200 - An object with "result"
  * @returns {Error} 400 - Bad request
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.post('/:id/:userid', catchErrors(eventController.createEventAsUser));
+router.get('/:id/messages', catchErrors(eventController.getMessages));
+
+/**
+ * Create a Event Message
+ * @route POST /event/{id}/message
+ * @group Event - Operations about event
+ * @param {EventMessagePost.model} data.body.required The event message to be created
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Event, User must be a number
+ * @returns {Error} 400 - {field} can't be empty or must be text
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.post('/:id/message', catchErrors(eventController.createMessage));
 
 /**
  * Shows random events
