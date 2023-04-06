@@ -19,10 +19,10 @@ const router = express.Router();
  * @property {integer} organizer_id - event organizer_id
  * @property {integer} number - event address number
  * @property {string} street - event address street
- * @property {integer} zip_code - event address zip_code
+ * @property {string} zip_code - event address zip_code
  * @property {string} city - event address city
- * @property {string} sport - event sport
- * @property {string} level - event level
+ * @property {string} sport - Sport (FootBall, VolleyBall, BasketBall, PingPong, Tennis, Velo, Badminton)
+ * @property {string} level - Level (Débutant, Intermediaire, Confirmé)
  * 
  */
 
@@ -51,7 +51,6 @@ const router = express.Router();
  * @typedef EventMessagePost
  * @property {string} content - Content
  * @property {integer} user_id - user_id
- * @property {integer} event_id - event_id
  * 
  */
 
@@ -96,6 +95,7 @@ router.get('/:id/messages', catchErrors(eventController.getMessages));
  * Create a Event Message
  * @route POST /event/{id}/message
  * @group Event - Operations about event
+ * @param {integer} id.path.required - Event ID - Event ID
  * @param {EventMessagePost.model} data.body.required The event message to be created
  * @returns {object} 200 - An object with "result"
  * @returns {Error} 400 - Event, User must be a number

@@ -160,7 +160,7 @@ const userController = {
       return next(err);
     };
 
-    res.status(200).json(`Address with id : ${id} has been deleted`);
+    res.status(200).json(`Address with id : ${addressId} has been deleted`);
   },
   // Delete user sport
   async deleteSport (req, res, next) {
@@ -173,7 +173,7 @@ const userController = {
       return next(err);
     };
 
-    res.status(200).json(`Sport with id : ${id} has been deleted`);
+    res.status(200).json(`Sport with id : ${sportId} has been deleted`);
   },
 };
 

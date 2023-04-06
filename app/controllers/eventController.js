@@ -154,7 +154,7 @@ const eventController = {
           resultsWithDept.push(obj);
         }
       });
-  
+      
       res.status(200).json(resultsWithDept);
     }
   },

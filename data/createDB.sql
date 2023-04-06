@@ -73,7 +73,7 @@ CREATE TABLE "message" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "content" TEXT NOT NULL,
   "user_id" INT NOT NULL REFERENCES "user"("id"),
-  "event_id" INT NOT NULL REFERENCES "event"("id"),
+  "event_id" INT NOT NULL REFERENCES "event"("id") ON DELETE CASCADE,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ
 );
@@ -87,7 +87,7 @@ CREATE TABLE "event_has_user" (
 
 CREATE TABLE "user_has_address" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "user_id" INT NOT NULL REFERENCES "user"("id"),
+  "user_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "address_id" INT NOT NULL REFERENCES "address"("id") ON DELETE CASCADE
 );
 

@@ -13,6 +13,7 @@ const router = express.Router();
  * @property {string} lastname - Dean
  * @property {string} email - jd.mail.fr
  * @property {string} password - 1234
+ * @property {string} repeat_password - 1234
  * @property {string} pseudo - JD
  * @property {string} sport - sport
  * 
@@ -138,7 +139,7 @@ router.delete('/:id', catchErrors(userController.delete));
  * Create a User
  * @route POST /user
  * @group User - Operations about user
- * @param {UserPost.model} data.body.required - firstname, lastname, email, password, pseudo, picture, birthday, bio
+ * @param {UserPost.model} data.body.required - firstname, lastname, email, password, repeat_password, pseudo, picture, birthday, bio
  * @returns {object} 200 - An object with "result" user create
  * @returns {Error} 400 - {field} can't be empty or must be text
  * @returns {Error} 404 - Page not found "user was not found"
