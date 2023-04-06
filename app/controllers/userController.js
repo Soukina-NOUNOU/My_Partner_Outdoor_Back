@@ -150,6 +150,30 @@ const userController = {
 
   res.status(200).json(results); 
   },
+  //return all sport user
+  async getUsersport (req, res, next) {
+    const id = req.params.id;
+    const results = await dataMapper.userHasSport(id);
+    
+    if(!results) {
+      const err = new APIError(`Can not find address user with id : ${id}`, 400);
+      return next(err);
+  };
+
+  res.status(200).json(results); 
+  },
+  // Add sport for user
+  async createUserHasSport (req, res, next) {
+    const id = req.params.id;
+    const sportId = req.params.sportid;
+    const results = await dataMapper.userCreateHasSport(id, sportId);
+    
+    if (!results) {
+      const err = new APIError(`Can not update sport`, 400);
+      return next(err);
+    }
+    res.status(200).json(results);
+  },
   // Delete user address
   async deleteAddress (req, res, next) {
     const id = req.params.id;

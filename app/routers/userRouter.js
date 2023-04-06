@@ -86,6 +86,31 @@ router.delete('/:id/address/:addressid', catchErrors(userController.deleteAddres
 router.get('/:id/address', catchErrors(userController.getUserAddress));
 
 /**
+ * Shows a User's Sport by User ID
+ * @route GET /user/{id}/sport
+ * @group User - Operations about user profile
+ * @param {integer} id.path.required - User ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request "user id or data is invalid"
+ * @returns {Error} 404 - Page not found "user address was not found"
+ * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
+*/
+router.get('/:id/sport', catchErrors(userController.getUsersport));
+
+/**
+ * Add sport for user by user id and sport id
+ * @route POST /user/{id}/sport/{sportid}
+ * @group User - Operations about user
+ * @param {integer} id.path.required - User ID - User ID
+ * @param {integer} sportid.path.required - Sport ID - Sport ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.post('/:id/sport/:sportid', catchErrors(userController.createUserHasSport));
+
+/**
  * Create a User
  * @route POST /user/login
  * @group User - Operations about userLogin
@@ -96,6 +121,7 @@ router.get('/:id/address', catchErrors(userController.getUserAddress));
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
+
 router.post('/login', catchErrors(userController.login));
 
 /**

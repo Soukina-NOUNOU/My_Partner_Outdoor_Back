@@ -74,6 +74,7 @@ const dataMapper = {
     const results = await client.query(query, values);
     return results.rows[0];
   },
+  
   //User has address
   async userHasAddress(id) {
     const query = `SELECT * FROM user_has_address
@@ -81,6 +82,31 @@ const dataMapper = {
     WHERE "user_id"=$1`;
     const results = await client.query(query, [id]);
     return results.rows;
+  },
+  //User has Sport
+  async userHasSport(id) {
+    const query = `SELECT sport_id, "user_id", name
+    FROM user_has_sport
+    JOIN "sport" ON user_has_sport.sport_id = "sport".id
+    WHERE "user_id"=$1`;
+    const results = await client.query(query, [id]);
+    return results.rows;
+  },
+  //Add sport for user
+  async userCreateHasSport(id, sportId) {
+    // Check if the user already has this sport
+    const checkQuery = `SELECT * FROM user_has_sport WHERE user_id = $1 AND sport_id = $2`;
+    const checkValues = [id, sportId];
+    const checkResults = await client.query(checkQuery, checkValues);
+    if (checkResults.rows.length > 0) {
+      throw new Error(`User already has this sport.`);
+    }; 
+    const query = `INSERT INTO user_has_sport(user_id, sport_id)
+    VALUES ($1, $2)
+    RETURNING *`;
+    const values = [id, sportId];
+    const results = await client.query(query, values);
+    return results.rows[0];
   },
   // Delete user address
   async userDeleteAddress(id, addressId) {
