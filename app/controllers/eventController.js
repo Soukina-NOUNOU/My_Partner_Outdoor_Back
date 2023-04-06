@@ -9,7 +9,7 @@ const eventController = {
     const results = await dataMapper.eventFindByPk(id);
     
     if(!results) {
-      const err = new APIError(`Can not find user with id : ${id}`, 400);
+      const err = new APIError(`Can not find event with id : ${id}`, 400);
       return next(err);
   };
   res.status(200).json(results); 
