@@ -81,20 +81,20 @@ CREATE TABLE "message" (
 
 CREATE TABLE "event_has_user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "event_id" INT NOT NULL REFERENCES "event"("id"),
+  "event_id" INT NOT NULL REFERENCES "event"("id") ON DELETE CASCADE,
   "user_id" INT NOT NULL REFERENCES "user"("id")
 );
 
 CREATE TABLE "user_has_address" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "user_id" INT NOT NULL REFERENCES "user"("id"),
-  "address_id" INT NOT NULL REFERENCES "address"("id")
+  "address_id" INT NOT NULL REFERENCES "address"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE "user_has_sport" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "sport_id" INT NOT NULL REFERENCES "sport"("id"),
-  "user_id" INT NOT NULL REFERENCES "user"("id")
+  "user_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE
 );
 
 

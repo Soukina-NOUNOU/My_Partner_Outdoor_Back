@@ -82,6 +82,18 @@ const dataMapper = {
     const results = await client.query(query, [id]);
     return results.rows;
   },
+  // Delete user address
+  async userDeleteAddress(id, addressId) {
+    const query = `DELETE FROM "user_has_address" WHERE "user_id"=$1 AND "address_id"=$2`;
+    const results = await client.query(query, [id, addressId]);
+    return results.rowCount;
+  },
+  // Delete user sport
+  async userDeleteSport(id, sportId) {
+    const query = `DELETE FROM "user_has_sport" WHERE "user_id"=$1 AND "sport_id"=$2`;
+    const results = await client.query(query, [id, sportId]);
+    return results.rowCount;
+  },
   
   /******************* End User ******************/
 
@@ -178,7 +190,7 @@ const dataMapper = {
       JOIN "address" ON event.address_id = address.id
       JOIN "level" ON event.level_id = level.id
       JOIN "user" ON event.organizer_id = "user".id 
-      ORDER BY RANDOM () LIMIT 3
+      ORDER BY RANDOM () LIMIT 9
       `;
     const results = await client.query(query);
     return results.rows;

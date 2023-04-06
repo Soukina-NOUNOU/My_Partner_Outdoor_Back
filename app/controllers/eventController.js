@@ -108,7 +108,6 @@ const eventController = {
     res.status(200).json(results);
   },
   // Delete one Event
-  //TODO Check le retour avec rowCount !!! Gérer la supression des association avant suppression !!!
   async delete(req, res, next) {
     const id = req.params.id;
   
