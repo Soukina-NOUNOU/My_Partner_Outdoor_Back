@@ -2,7 +2,7 @@ const express = require('express');
 const eventController = require ('../controllers/eventController');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
-const { post: postSchema, get: getSchema, path: pathSchema } = require('../middlewares/validation/schema/event');
+const { post: postSchema, get: getSchema, path: patchSchema } = require('../middlewares/validation/schema/event');
 const router = express.Router();
 
 /**
@@ -139,7 +139,7 @@ router.get('/s', catchErrors(eventController.getSearch));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.get('/:id', catchErrors(eventController.getOne));
+router.get('/:id', validate(getSchema, 'params'), catchErrors(eventController.getOne));
 
 /**
  * Update an existing event
@@ -152,7 +152,7 @@ router.get('/:id', catchErrors(eventController.getOne));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
  */
-router.patch('/:id', catchErrors(eventController.modify));
+router.patch('/:id', validate(patchSchema, 'body'), catchErrors(eventController.modify));
 
 /**
  * Deletes an event by its id
