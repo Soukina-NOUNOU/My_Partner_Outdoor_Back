@@ -43,7 +43,7 @@ const eventController = {
   },
 
   // Add user to event list
-  async CreateEventAsUser (req, res, next) {
+  async createEventAsUser (req, res, next) {
     const eventId = req.params.id;
     const userId = req.params.userid;
     const results = await dataMapper.eventCreateHasUser(eventId, userId);
