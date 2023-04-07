@@ -74,6 +74,18 @@ router.delete('/:id/sport/:sportid', catchErrors(userController.deleteSport));
 router.delete('/:id/address/:addressid', catchErrors(userController.deleteAddress));
 
 /**
+ * Shows a User's Events by User ID
+ * @route GET /user/{id}/events
+ * @group User - Operations about user profile
+ * @param {integer} id.path.required - User ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request "user id or data is invalid"
+ * @returns {Error} 404 - Page not found "user address was not found"
+ * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
+*/
+router.get('/:id/events', catchErrors(userController.getUserHasEvents));
+
+/**
  * Shows a User's Address by User ID
  * @route GET /user/{id}/address
  * @group User - Operations about user profile
@@ -83,7 +95,7 @@ router.delete('/:id/address/:addressid', catchErrors(userController.deleteAddres
  * @returns {Error} 404 - Page not found "user address was not found"
  * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
 */
-router.get('/:id/address', catchErrors(userController.getUserAddress));
+router.get('/:id/address', catchErrors(userController.getUserHasAddress));
 
 /**
  * Shows a User's Sport by User ID

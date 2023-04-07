@@ -57,8 +57,8 @@ INSERT INTO "event_has_user"
 ("event_id", "user_id")
 VALUES
 (1, 1),
-(1, 2),
-(1, 3);
+(2, 2),
+(3, 3);
 
 INSERT INTO "user_has_address"
 ("user_id", "address_id")
