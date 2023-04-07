@@ -261,7 +261,7 @@ const dataMapper = {
     return results.rows;
   },
   // Create message in Event
-  async createEventMessage (message, id) {
+  async createEventMessage (message, id){
     const query = `INSERT INTO "message"(content, user_id, event_id)
     VALUES ($1, $2, $3)
     RETURNING *`;
@@ -269,12 +269,20 @@ const dataMapper = {
     const results = await client.query(query, values)
     return results.rows[0];
   },
+  // Delete message in Event
+  async eventDeleteMessage (eventId, id){
+    const query = `DELETE FROM "message" WHERE  "event_id" = $1 AND "id" = $2`;
+    const values = [eventId, id];
+    const results = await client.query(query, values);
+    return results.rowCount;
+  },
   // Delete user sport
   async eventDeleteUser(id, userId) {
     const query = `DELETE FROM "event_has_user" WHERE "event_id"=$1 AND "user_id"=$2`;
     const results = await client.query(query, [id, userId]);
     return results.rowCount;
   },
+
   /******************* End Event *****************/
 
   /******************* Address ******************/

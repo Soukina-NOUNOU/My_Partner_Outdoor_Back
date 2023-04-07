@@ -107,9 +107,8 @@ const eventController = {
     res.status(200).json(results);
   },
   // Delete one Event
-  async delete(req, res, next) {
+  async delete(req, res, next){
     const id = req.params.id;
-  
     const result = await dataMapper.eventDelete(id);
   
     if (result !== 1) {
@@ -159,15 +158,15 @@ const eventController = {
   },
   // Return users in one Event
   async getEventUsers (req, res, next){
-      const eventId = req.params.id;
-      const results = await dataMapper.eventHasUser(eventId);
+    const eventId = req.params.id;
+    const results = await dataMapper.eventHasUser(eventId);
       
-      if (!results) {
-        const err = new APIError(`Can not update event`, 400);
-        return next(err);
-      }
+    if (!results) {
+      const err = new APIError(`Can not update event`, 400);
+      return next(err);
+    }
       res.status(200).json(results);
-    },
+  },
   // Return messages in one Event
   async getMessages (req, res, next){
     const eventId = req.params.id;
@@ -181,7 +180,7 @@ const eventController = {
     res.status(200).json(results);
   },
   // Create message in one Event
-  async createMessage (req, res, next) {
+  async createMessage (req, res, next){
     const message = req.body;
     const id = req.params.id;
     const results = await dataMapper.createEventMessage(message, id);
@@ -190,6 +189,17 @@ const eventController = {
       return next(err);
     }
     res.status(200).json(results);
+  },
+  // Delete message in one event
+  async deleteMessage (req, res, next){
+    const id = req.params.id;
+    const messageId = req.params.messageid;
+    const results = await dataMapper.eventDeleteMessage(id, messageId);
+    if (results !== 1) {
+      const err = new APIError(`Can not delete message`, 400);
+      return next(err);
+    }
+    res.status(200).json(`message has been deleted`);
   },
   // Delete User from Event
   async deleteUser (req, res, next) {
