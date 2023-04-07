@@ -82,6 +82,21 @@ const dataMapper = {
     const results = await client.query(query, [id]);
     return results.rows;
   },
+  //Get all user events
+  async userHasEvents(id) {
+    const query = `
+    SELECT event.id, event.title, event.description, event.start, event.finish, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
+    address.number, address.street, address.zip_code, address.city, sport.name AS sport, level.name AS level
+    FROM event_has_user
+    JOIN "event" ON event_has_user.event_id = "event".id
+    JOIN "address" ON event.address_id = address.id
+    JOIN "sport" ON event.sport_id = sport.id
+    JOIN "level" ON event.level_id = level.id
+    WHERE "user_id"=$1
+    `;
+    const results = await client.query(query, [id]);
+    return results.rows;
+  },
   // Delete user address
   async userDeleteAddress(id, addressId) {
     const query = `DELETE FROM "user_has_address" WHERE "user_id"=$1 AND "address_id"=$2`;
