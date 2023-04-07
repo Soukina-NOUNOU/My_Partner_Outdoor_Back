@@ -95,12 +95,6 @@ const dataMapper = {
   //Add sport for user
   async userCreateHasSport(id, sportId) {
     // Check if the user already has this sport
-    const checkQuery = `SELECT * FROM user_has_sport WHERE user_id = $1 AND sport_id = $2`;
-    const checkValues = [id, sportId];
-    const checkResults = await client.query(checkQuery, checkValues);
-    if (checkResults.rows.length > 0) {
-      throw new Error(`User already has this sport.`);
-    }; 
     const query = `INSERT INTO user_has_sport(user_id, sport_id)
     VALUES ($1, $2)
     RETURNING *`;

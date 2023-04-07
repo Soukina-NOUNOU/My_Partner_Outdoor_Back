@@ -156,7 +156,7 @@ const userController = {
     const results = await dataMapper.userHasSport(id);
     
     if(!results) {
-      const err = new APIError(`Can not find address user with id : ${id}`, 400);
+      const err = new APIError(`Can not find sport user's with id : ${id}`, 400);
       return next(err);
   };
 
@@ -169,7 +169,7 @@ const userController = {
     const results = await dataMapper.userCreateHasSport(id, sportId);
     
     if (!results) {
-      const err = new APIError(`Can not update sport`, 400);
+      const err = new APIError(`Can not create sport`, 400);
       return next(err);
     }
     res.status(200).json(results);
