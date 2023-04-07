@@ -82,6 +82,19 @@ router.delete('/:id/user/:userid', catchErrors(eventController.deleteUser));
 router.post('/:id/user/:userid', catchErrors(eventController.createEventAsUser));
 
 /**
+ * Deletes message in one event
+ * @route DELETE /event/{id}/message/{messageid}
+ * @group Event - Operations about event
+ * @param {integer} id.path.required - Event ID - Event ID to delete
+ * @param {integer} messageid.path.required - Message ID - Message ID to delete
+ * @returns {object} 200 - An object with "message"
+ * @returns {Error} 400 - Bad request
+ * @returns {Error} 404 - Event not found
+ * @returns {Error} 500 - An error has occurred and we're working to fix problem!
+ */
+router.delete('/:id/message/:messageid', catchErrors(eventController.deleteMessage));
+
+/**
  * Shows Users in event
  * @route GET /event/{id}/users
  * @group Event - Operations about event
