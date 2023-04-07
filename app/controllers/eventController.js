@@ -1,5 +1,6 @@
 const dataMapper = require ('../models/dataMapper');
 const APIError = require('../middlewares/handlers/APIError');
+const { exist } = require('joi');
 
 const eventController = {
   // Return one Event
@@ -45,8 +46,20 @@ const eventController = {
   async createEventAsUser (req, res, next) {
     const eventId = req.params.id;
     const userId = req.params.userid;
+    
+    const listUser = await dataMapper.eventHasUser(eventId);
+    listUser.forEach(user => {
+      if (Number(user.userid) === Number(userId)) {
+        const err = new APIError(`User have already add to this event`, 400);
+        throw err;
+      }
+
+    });
+    
+
     const results = await dataMapper.eventCreateHasUser(eventId, userId);
     
+
     if (!results) {
       const err = new APIError(`Can not update event`, 400);
       return next(err);

@@ -180,6 +180,16 @@ const userController = {
   async createUserHasSport (req, res, next) {
     const id = req.params.id;
     const sportId = req.params.sportid;
+    
+    const listSport = await dataMapper.userHasSport(id);
+    listSport.forEach(sport => {
+      if(Number(sport.sportid) === Number(sportId)) {
+        const err = new APIError(`Sport have already add to this user`, 400);
+        throw err;
+      }
+    });
+
+
     const results = await dataMapper.userCreateHasSport(id, sportId);
     
     if (!results) {
