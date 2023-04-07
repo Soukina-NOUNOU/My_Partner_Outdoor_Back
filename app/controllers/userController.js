@@ -128,10 +128,11 @@ const userController = {
       return next(err);
     };
 
-    const userSession = { email: user.email }
-    req.session.user = userSession;
-    res.status(200).json('User connected');
+    // Delete password key
+    delete user.password;
+    req.session.user = user;
 
+    res.status(200).json(user);
   },
 
   logout (req, res) {
@@ -139,7 +140,7 @@ const userController = {
     res.status(200);
   },
   // Return all user address
-  async getUserAddress (req, res, next) {
+  async getUserHasAddress (req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.userHasAddress(id);
     
@@ -150,6 +151,45 @@ const userController = {
 
   res.status(200).json(results); 
   },
+  
+ //return all sport user
+  async getUsersport (req, res, next) {
+    const id = req.params.id;
+    const results = await dataMapper.userHasSport(id);
+    
+    if(!results) {
+      const err = new APIError(`Can not find sport user's with id : ${id}`, 400);
+      return next(err);
+  };
+
+  res.status(200).json(results); 
+  },
+  // Return all user events
+  async getUserHasEvents (req, res, next) {
+    const id = req.params.id;
+    const results = await dataMapper.userHasEvents(id);
+    
+    if(!results) {
+      const err = new APIError(`Can not find events for user with id : ${id}`, 400);
+      return next(err);
+  };
+
+  res.status(200).json(results); 
+  },
+
+  // Add sport for user
+  async createUserHasSport (req, res, next) {
+    const id = req.params.id;
+    const sportId = req.params.sportid;
+    const results = await dataMapper.userCreateHasSport(id, sportId);
+    
+    if (!results) {
+      const err = new APIError(`Can not create sport`, 400);
+      return next(err);
+    }
+    res.status(200).json(results);
+  },
+
   // Delete user address
   async deleteAddress (req, res, next) {
     const id = req.params.id;

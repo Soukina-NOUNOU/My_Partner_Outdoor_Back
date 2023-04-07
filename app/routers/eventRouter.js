@@ -54,6 +54,20 @@ const router = express.Router();
  * 
  */
 
+
+/**
+ * Delete User from Event
+ * @route DELETE /event/{id}/user/{userid}
+ * @group Event - Operations about event
+ * @param {integer} id.path.required - Event ID - Event ID
+ * @param {integer} userid.path.required - User ID - User ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.delete('/:id/user/:userid', catchErrors(eventController.deleteUser));
+
 /**
  * Add user in one event
  * @route POST /event/{id}/user/{userid}

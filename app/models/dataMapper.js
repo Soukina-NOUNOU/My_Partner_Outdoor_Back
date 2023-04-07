@@ -74,13 +74,33 @@ const dataMapper = {
     const results = await client.query(query, values);
     return results.rows[0];
   },
-  //User has address
+
+  //Get all user adrress
   async userHasAddress(id) {
     const query = `SELECT * FROM user_has_address
     JOIN "address" ON user_has_address.address_id = "address".id
     WHERE "user_id"=$1`;
     const results = await client.query(query, [id]);
     return results.rows;
+  },
+  //User has Sport
+  async userHasSport(id) {
+    const query = `SELECT sport_id, "user_id", name
+    FROM user_has_sport
+    JOIN "sport" ON user_has_sport.sport_id = "sport".id
+    WHERE "user_id"=$1`;
+    const results = await client.query(query, [id]);
+    return results.rows;
+  },
+  //Add sport for user
+  async userCreateHasSport(id, sportId) {
+    // Check if the user already has this sport
+    const query = `INSERT INTO user_has_sport(user_id, sport_id)
+    VALUES ($1, $2)
+    RETURNING *`;
+    const values = [id, sportId];
+    const results = await client.query(query, values);
+    return results.rows[0];
   },
   // Delete user address
   async userDeleteAddress(id, addressId) {
@@ -220,16 +240,17 @@ const dataMapper = {
     const results = await client.query(query, values);
     return results.rows[0];
   },
-  // Get users in Event
+  // Get all users in Event
   async eventHasUser (eventId) {
-    const query = `SELECT * FROM event_has_user
+    const query = `SELECT "user".id AS userid, "user".firstname, "user".lastname, "user".email, "user".pseudo, "user".picture
+    FROM event_has_user
     JOIN "user" ON event_has_user.user_id = "user".id
     WHERE event_id = $1
     ORDER BY pseudo ASC`;
     const results = await client.query(query, [eventId]);
     return results.rows;
   },
-  // Get messages in Event
+  // Get all messages in Event
   async eventFindAllMessages (messages) {
     const query = `SELECT event.id AS eventid, message.id AS messageid, message.user_id AS userid, message.content, message.created_at, "user".pseudo 
     FROM "event"
@@ -255,7 +276,13 @@ const dataMapper = {
     const results = await client.query(query, values);
     return results.rowCount;
   },
-  
+  // Delete user sport
+  async eventDeleteUser(id, userId) {
+    const query = `DELETE FROM "event_has_user" WHERE "event_id"=$1 AND "user_id"=$2`;
+    const results = await client.query(query, [id, userId]);
+    return results.rowCount;
+  },
+
   /******************* End Event *****************/
 
   /******************* Address ******************/

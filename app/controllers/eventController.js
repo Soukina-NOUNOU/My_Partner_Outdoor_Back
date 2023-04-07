@@ -3,7 +3,6 @@ const APIError = require('../middlewares/handlers/APIError');
 
 const eventController = {
   // Return one Event
-  //TODO Delete password
   async getOne (req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.eventFindByPk(id);
@@ -201,6 +200,18 @@ const eventController = {
       return next(err);
     }
     res.status(200).json(`message has been deleted`);
+  },
+  // Delete User from Event
+  async deleteUser (req, res, next) {
+    const id = req.params.id;
+    const userId = req.params.userid;
+    const results = await dataMapper.eventDeleteUser(id, userId);
+    if(results !== 1) {
+      const err = new APIError(`Can not delete User`, 400);
+      return next(err);
+    };
+
+    res.status(200).json(`User with id : ${userId} has been deleted`);
   },
 
 };
