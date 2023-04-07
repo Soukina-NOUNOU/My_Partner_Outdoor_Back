@@ -66,15 +66,14 @@ const dataMapper = {
     return results.rows[0];
   },
   // Create association User Has Sport
-  async userCreateHasSport(user, sport) {
+  async userCreateHasSport(userId, sportId) {
     const query = `INSERT INTO "user_has_sport"(user_id, sport_id)
     VALUES ($1, $2)
     RETURNING *`;
-    const values = [user.id, sport.id];
+    const values = [userId, sportId];
     const results = await client.query(query, values);
     return results.rows[0];
   },
-
   //Get all user adrress
   async userHasAddress(id) {
     const query = `SELECT * FROM user_has_address
@@ -106,16 +105,6 @@ const dataMapper = {
     WHERE "user_id"=$1`;
     const results = await client.query(query, [id]);
     return results.rows;
-  },
-  //Add sport for user
-  async userCreateHasSport(id, sportId) {
-    // Check if the user already has this sport
-    const query = `INSERT INTO user_has_sport(user_id, sport_id)
-    VALUES ($1, $2)
-    RETURNING *`;
-    const values = [id, sportId];
-    const results = await client.query(query, values);
-    return results.rows[0];
   },
   // Delete user address
   async userDeleteAddress(id, addressId) {

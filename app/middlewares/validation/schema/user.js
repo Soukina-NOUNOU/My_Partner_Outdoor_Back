@@ -32,7 +32,7 @@ const schemas = {
         city: Joi.string().optional() //changing city is optional
     }),
     get: Joi.object({
-        id: Joi.number().integer().required()
+        id: Joi.number().integer().required(),
     }).required()
 };
 

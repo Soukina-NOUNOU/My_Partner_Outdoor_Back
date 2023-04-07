@@ -33,14 +33,13 @@ const userController = {
 
     // Return selected sport
     const sport = await dataMapper.getSport(user);
-
+    
     // Add Sport to user list sport
-    const userHasSport = await dataMapper.userCreateHasSport(results, sport);
+    const userHasSport = await dataMapper.userCreateHasSport(results.id, sport.id);
     if(!userHasSport) {
       const err = new APIError(`Can not associate user_has_sport`, 400);
       return next(err);
     };
-
     res.status(200).json(results);
   },
 

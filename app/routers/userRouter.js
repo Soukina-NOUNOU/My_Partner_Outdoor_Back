@@ -61,6 +61,19 @@ const router = express.Router();
 router.delete('/:id/sport/:sportid', catchErrors(userController.deleteSport));
 
 /**
+ * Add sport for user by user id and sport id
+ * @route POST /user/{id}/sport/{sportid}
+ * @group User - Operations about user
+ * @param {integer} id.path.required - User ID - User ID
+ * @param {integer} sportid.path.required - Sport ID - Sport ID
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ */
+router.post('/:id/sport/:sportid', catchErrors(userController.createUserHasSport));
+
+/**
  * Delete addres of user
  * @route DELETE /user/{id}/address/{addressid}
  * @group User - Operations about user
@@ -109,18 +122,7 @@ router.get('/:id/address', catchErrors(userController.getUserHasAddress));
 */
 router.get('/:id/sport', catchErrors(userController.getUsersport));
 
-/**
- * Add sport for user by user id and sport id
- * @route POST /user/{id}/sport/{sportid}
- * @group User - Operations about user
- * @param {integer} id.path.required - User ID - User ID
- * @param {integer} sportid.path.required - Sport ID - Sport ID
- * @returns {object} 200 - An object with "result"
- * @returns {Error} 400 - Bad request
- * @returns {Error} 404 - Page not found
- * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
- */
-router.post('/:id/sport/:sportid', catchErrors(userController.createUserHasSport));
+
 
 /**
  * Create a User
