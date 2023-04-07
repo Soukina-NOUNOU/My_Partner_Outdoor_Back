@@ -6,6 +6,7 @@ const eventController = {
   // Return one Event
   async getOne (req, res, next) {
     const id = req.params.id;
+    console.log(id);
     const results = await dataMapper.eventFindByPk(id);
     
     if(!results) {
@@ -42,29 +43,33 @@ const eventController = {
     res.status(200).json(results); 
   },
 
-  // Add user to event list
+  // Add user to Event
   async createEventAsUser (req, res, next) {
     const eventId = req.params.id;
     const userId = req.params.userid;
-    
+
+    // Return all users
     const listUser = await dataMapper.eventHasUser(eventId);
-    listUser.forEach(user => {
-      if (Number(user.userid) === Number(userId)) {
-        const err = new APIError(`User have already add to this event`, 400);
-        throw err;
-      }
-
-    });
-    
-
-    const results = await dataMapper.eventCreateHasUser(eventId, userId);
-    
-
-    if (!results) {
-      const err = new APIError(`Can not update event`, 400);
-      return next(err);
-    }
-    res.status(200).json(results);
+    let err = '';
+    // We check if user already have this psort
+    if(listUser) {
+      listUser.forEach(obj => {
+        if(obj.userid === userId) {
+          return err = new APIError(`This user is already added`, 400);
+        }
+      });
+    };
+    // If we already have this sport we send an error
+    if (err) {
+      return next(err)
+    } else {
+      const results = await dataMapper.eventCreateHasUser(eventId, userId);
+      if (!results) {
+          const err = new APIError(`Can not add user`, 400);
+          return next(err);
+      };
+      res.status(200).json(`User with id : ${userId} has been added to event with id : ${eventId}`);
+    };
   },
 
   // Modify one Event
@@ -201,7 +206,7 @@ const eventController = {
       const err = new APIError(`Can not create message`, 400);
       return next(err);
     }
-    res.status(200).json(results);
+    res.status(200).json(`Message with id : ${results.id} has been added to event with id : ${id}`);
   },
   // Delete message in one event
   async deleteMessage (req, res, next){
@@ -212,7 +217,7 @@ const eventController = {
       const err = new APIError(`Can not delete message`, 400);
       return next(err);
     }
-    res.status(200).json(`message has been deleted`);
+    res.status(200).json(`Message with id : ${messageId} has been deleted`);
   },
   // Delete User from Event
   async deleteUser (req, res, next) {

@@ -2,6 +2,8 @@ const express = require('express');
 const userController = require ('../controllers/userController');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
+const { checkParamsId } = require ('../middlewares/checkParams');
+const { checkJWT } = require('../middlewares/security');
 const { post: postSchema, path: patchSchema ,get: getSchema } = require('../middlewares/validation/schema/user');
 const router = express.Router();
 
@@ -58,7 +60,7 @@ const router = express.Router();
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.delete('/:id/sport/:sportid', catchErrors(userController.deleteSport));
+router.delete('/:id/sport/:sportid', checkParamsId, catchErrors(userController.deleteSport));
 
 /**
  * Add sport for user by user id and sport id
@@ -71,7 +73,7 @@ router.delete('/:id/sport/:sportid', catchErrors(userController.deleteSport));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.post('/:id/sport/:sportid', catchErrors(userController.createUserHasSport));
+router.post('/:id/sport/:sportid', checkParamsId, catchErrors(userController.createUserHasSport));
 
 /**
  * Delete addres of user
@@ -84,7 +86,7 @@ router.post('/:id/sport/:sportid', catchErrors(userController.createUserHasSport
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.delete('/:id/address/:addressid', catchErrors(userController.deleteAddress));
+router.delete('/:id/address/:addressid', checkParamsId, catchErrors(userController.deleteAddress));
 
 /**
  * Shows a User's Events by User ID
@@ -96,7 +98,7 @@ router.delete('/:id/address/:addressid', catchErrors(userController.deleteAddres
  * @returns {Error} 404 - Page not found "user address was not found"
  * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
 */
-router.get('/:id/events', catchErrors(userController.getUserHasEvents));
+router.get('/:id/events', checkParamsId, catchErrors(userController.getUserHasEvents));
 
 /**
  * Shows a User's Address by User ID
@@ -108,11 +110,11 @@ router.get('/:id/events', catchErrors(userController.getUserHasEvents));
  * @returns {Error} 404 - Page not found "user address was not found"
  * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
 */
-router.get('/:id/address', catchErrors(userController.getUserHasAddress));
+router.get('/:id/address', checkParamsId, catchErrors(userController.getUserHasAddress));
 
 /**
  * Shows a User's Sport by User ID
- * @route GET /user/{id}/sport
+ * @route GET /user/{id}/sports
  * @group User - Operations about user profile
  * @param {integer} id.path.required - User ID
  * @returns {object} 200 - An object with "result"
@@ -120,9 +122,7 @@ router.get('/:id/address', catchErrors(userController.getUserHasAddress));
  * @returns {Error} 404 - Page not found "user address was not found"
  * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
 */
-router.get('/:id/sport', catchErrors(userController.getUsersport));
-
-
+router.get('/:id/sports', checkParamsId, catchErrors(userController.getUsersport));
 
 /**
  * Create a User
@@ -148,7 +148,7 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
- router.get('/:id', validate(getSchema, 'params'), catchErrors(userController.getOne));
+ router.get('/:id', checkJWT, checkParamsId, validate(getSchema, 'params'), catchErrors(userController.getOne));
 
 /**
  * Modify a User by its id
@@ -161,7 +161,7 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.patch('/:id', validate(patchSchema, 'body'), catchErrors(userController.modify));
+router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), catchErrors(userController.modify));
 
 /**
  * Delete a User
@@ -173,7 +173,7 @@ router.patch('/:id', validate(patchSchema, 'body'), catchErrors(userController.m
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.delete('/:id', catchErrors(userController.delete));
+router.delete('/:id', checkParamsId, catchErrors(userController.delete));
 
 /**
  * Create a User
