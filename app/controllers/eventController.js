@@ -1,5 +1,6 @@
 const dataMapper = require ('../models/dataMapper');
 const APIError = require('../middlewares/handlers/APIError');
+const { exist } = require('joi');
 
 const eventController = {
   // Return one Event
