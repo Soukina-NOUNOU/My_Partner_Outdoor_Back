@@ -1,3 +1,4 @@
+
 const dataMapper = require("../models/dataMapper");
 const APIError = require("../middlewares/handlers/APIError");
 const bcrypt = require("bcrypt");
@@ -53,9 +54,11 @@ const userController = {
   },
 
   // Modify one user
-  async modify(req, res, next) {
-    const id = req.params.id;
+
+  async modify (req, res, next) {
+    const id = parseInt(req.params.id);
     const newUserData = req.body;
+    
 
     // Compare old and new data
     const user = await dataMapper.userFindByPk(id);
@@ -123,9 +126,9 @@ const userController = {
     if (!results) {
       const err = new APIError(`Can not modify user with id : ${id}`, 400);
       return next(err);
-    }
-    // Delete password key
-    delete results.password;
+
+    };
+   
     res.status(200).json(results);
   },
   // Delete one user
@@ -157,7 +160,6 @@ const userController = {
 
     // Delete password key
     delete user.password;
-
     // Create token
     const token = jwt.sign(
       {

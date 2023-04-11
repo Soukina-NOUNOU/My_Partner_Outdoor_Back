@@ -1,5 +1,6 @@
 const express = require('express');
 const userController = require ('../controllers/userController');
+const upload = require('../utils/multer');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
 const { checkParamsId } = require ('../middlewares/checkParams');
@@ -96,7 +97,6 @@ router.delete('/:id/address/:addressid', checkParamsId, catchErrors(userControll
  * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
 */
 router.get('/:id/events', checkParamsId, catchErrors(userController.getUserHasEvents));
-
 /**
  * Return a user address by user_id
  * @route GET /user/{id}/address
@@ -156,7 +156,7 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
-router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), catchErrors(userController.modify));
+router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), upload.single('picture'), catchErrors(userController.modify));
 
 /**
  * Delete a User
