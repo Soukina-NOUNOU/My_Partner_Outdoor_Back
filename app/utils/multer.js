@@ -1,4 +1,6 @@
 const multer = require('multer');
+const path = require('path');
+
 
 //Multipurpose Internet Mail Extensions = Pictire validation
 const MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
@@ -9,8 +11,9 @@ const storage = multer.diskStorage({
     callback(null, 'images');
   },
   filename: function(req, file, callback) {
-    //return user's id and user's filename 
-    callback(null, 'profil' + req.params.id + "_" + file.originalname);
+    //return user's id and extension 
+    const extractOriginalName = path.extname(file.originalname);
+    callback(null, `profil${req.params.id}${extractOriginalName}`);
   }
 });
 // Configure Multer with storage defined above
@@ -21,7 +24,9 @@ const upload = multer({
     if (MIME_TYPES.includes(file.mimetype)) {
       callback(null, true);
     } else {
-      callback(new Error('Only image files are allowed!'));
+      const error = new Error('The image format is not valid. Please choose a JPEG, PNG or GIF format.');
+      error.status = 400;
+      callback(error);
     }
   }
 });

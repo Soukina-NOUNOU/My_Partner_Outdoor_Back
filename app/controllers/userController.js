@@ -58,7 +58,7 @@ const userController = {
   async modify (req, res, next) {
     const id = parseInt(req.params.id);
     const newUserData = req.body;
-    const file = req.file;
+    
 
     // Compare old and new data
     const user = await dataMapper.userFindByPk(id);
@@ -128,11 +128,7 @@ const userController = {
       return next(err);
 
     };
-    //send in database filename
-    const fileName = `${id}_${file.originalname}`; 
-    await dataMapper.updatePicture(id, fileName);
    
-
     res.status(200).json(results);
   },
   // Delete one user
