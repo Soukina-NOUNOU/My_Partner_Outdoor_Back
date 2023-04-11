@@ -1,6 +1,8 @@
 const dataMapper = require ('../models/dataMapper');
 const APIError = require('../middlewares/handlers/APIError');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+SECRET_KEY='Un secret';
 
 const userController = {
 
@@ -45,8 +47,9 @@ const userController = {
 
   // Modify one user
   async modify (req, res, next) {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
     const newUserData = req.body;
+    const file = req.file;
 
     // Compare old and new data
     const user = await dataMapper.userFindByPk(id);
@@ -97,7 +100,10 @@ const userController = {
       const err = new APIError(`Can not modify user with id : ${id}`, 400);
       return next(err);
     };
-
+    //send in database filename
+    const fileName = `${id}_${file.originalname}`; 
+    await dataMapper.updatePicture(id, fileName);
+   
     res.status(200).json(results);
   },
   // Delete one user
@@ -129,7 +135,12 @@ const userController = {
 
     // Delete password key
     delete user.password;
-    req.session.user = user;
+    
+    const token = jwt.sign({ user: user }, SECRET_KEY, { expiresIn: '1h' });
+    console.log(token); // affiche le jeton JWT généré
+
+    const verifiedToken = jwt.verify(token, 'SECRET_KEsdqsdY');
+    console.log(verifiedToken.user); // affiche l'identifiant de l'utilisateur extrait du jeton
 
     res.status(200).json(user);
   },

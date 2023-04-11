@@ -118,7 +118,12 @@ const dataMapper = {
     const results = await client.query(query, [id, sportId]);
     return results.rowCount;
   },
-  
+  // update the picture field of the user table
+  async updatePicture(id, fileName) {
+    const query = `UPDATE "user" SET picture = $1 WHERE id = $2`;
+    const results = await client.query(query, [fileName, id]);
+    return results.rows[0];
+  },
   /******************* End User ******************/
 
   /******************* Event *********************/

@@ -1,8 +1,9 @@
 const express = require('express');
 const userController = require ('../controllers/userController');
+const upload = require('../utils/multer');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
-const { post: postSchema, path: patchSchema ,get: getSchema } = require('../middlewares/validation/schema/user');
+const { post: postSchema, path: patchSchema ,get: paramsSchema } = require('../middlewares/validation/schema/user');
 const router = express.Router();
 
 
@@ -96,7 +97,7 @@ router.delete('/:id/address/:addressid', catchErrors(userController.deleteAddres
  * @returns {Error} 404 - Page not found "user address was not found"
  * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
 */
-router.get('/:id/events', catchErrors(userController.getUserHasEvents));
+router.get('/:id/events', validate( paramsSchema, 'params'), catchErrors(userController.getUserHasEvents));
 
 /**
  * Shows a User's Address by User ID
@@ -148,7 +149,7 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
- router.get('/:id', validate(getSchema, 'params'), catchErrors(userController.getOne));
+ router.get('/:id', catchErrors(userController.getOne));
 
 /**
  * Modify a User by its id
@@ -161,7 +162,7 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.patch('/:id', validate(patchSchema, 'body'), catchErrors(userController.modify));
+router.patch('/:id', validate(patchSchema, 'body'), upload.single('picture') , catchErrors(userController.modify));
 
 /**
  * Delete a User
