@@ -1,5 +1,6 @@
 const express = require('express');
 const userController = require ('../controllers/userController');
+const upload = require('../utils/multer');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
 const { checkParamsId } = require ('../middlewares/checkParams');
@@ -9,43 +10,40 @@ const router = express.Router();
 
 
 /**
- * Models type of User
+ * Models type of UserPost
  * @typedef UserPost
  * @property {string} firstname - James
  * @property {string} lastname - Dean
- * @property {string} email - jd.mail.fr
- * @property {string} password - 1234
- * @property {string} repeat_password - 1234
+ * @property {string} email - jamesdean@gmail.com
+ * @property {string} password - P@SSW0RD!
+ * @property {string} repeat_password - P@SSW0RD!
  * @property {string} pseudo - JD
- * @property {string} sport - sport
- * 
+ * @property {string} sport - Football
  */
 
 /**
- * Models type of User
+ * Models type of UserPatch
  * @typedef UserPath
  * @property {string} firstname - James
  * @property {string} lastname - Dean
- * @property {string} email - jd.mail.fr
- * @property {string} password - 1234
+ * @property {string} email - jamesdean@gmail.com
+ * @property {string} password - P@SSW0RD!
  * @property {string} pseudo - JD
- * @property {string} picture - user picture
+ * @property {string} picture - My user picture
  * @property {string} birthday - 01/01/1980
- * @property {string} bio - Lorem ipsum
- * @property {string} number - address number
- * @property {string} street - address street
- * @property {string} zip_code - address zip_code
- * @property {string} city - address city
- * @property {string} sport - sport
- * 
+ * @property {string} bio - My biography
+ * @property {string} number - 125
+ * @property {string} street - avenue du Général de Gaulle
+ * @property {string} zip_code - 75001
+ * @property {string} city - Paris
+ * @property {string} sport - Football
  */
 
 /**
  * Models type of UserLogin
  * @typedef UserLogin
- * @property {string} email - jd.mail.fr
- * @property {string} password - 1234
- * 
+ * @property {string} email - jamesdean@gmail.com
+ * @property {string} password - P@SSW0RD!
  */
 
 
@@ -53,12 +51,12 @@ const router = express.Router();
  * Delete sport of user
  * @route DELETE /user/{id}/sport/{sportid}
  * @group User - Operations about user
- * @param {integer} id.path.required - Usert ID - User ID
- * @param {integer} sportid.path.required - sport ID - sport ID
+ * @param {integer} id.path.required - user_id
+ * @param {integer} sportid.path.required - sport_id
  * @returns {object} 200 - An object with "result"
- * @returns {Error} 400 - Bad request
+ * @returns {Error} 400 - Bad request "user_id or sport_id invalid"
  * @returns {Error} 404 - Page not found
- * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
 router.delete('/:id/sport/:sportid', checkParamsId, catchErrors(userController.deleteSport));
 
@@ -69,9 +67,9 @@ router.delete('/:id/sport/:sportid', checkParamsId, catchErrors(userController.d
  * @param {integer} id.path.required - user_id
  * @param {integer} sportid.path.required - sport_id
  * @returns {object} 200 - An object with "result"
- * @returns {Error} 400 - Bad request
+ * @returns {Error} 400 - Bad request "user_id or sport_id invalid"
  * @returns {Error} 404 - Page not found
- * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
 router.post('/:id/sport/:sportid', checkParamsId, catchErrors(userController.createUserHasSport));
 
@@ -79,99 +77,98 @@ router.post('/:id/sport/:sportid', checkParamsId, catchErrors(userController.cre
  * Delete addres of user
  * @route DELETE /user/{id}/address/{addressid}
  * @group User - Operations about user
- * @param {integer} id.path.required - Usert ID - User ID
- * @param {integer} addressid.path.required - Address ID - Address ID
+ * @param {integer} id.path.required - user_id
+ * @param {integer} addressid.path.required - address_id
  * @returns {object} 200 - An object with "result"
- * @returns {Error} 400 - Bad request
+ * @returns {Error} 400 - Bad request  "user_id or address_id invalid"
  * @returns {Error} 404 - Page not found
- * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
 router.delete('/:id/address/:addressid', checkParamsId, catchErrors(userController.deleteAddress));
 
 /**
  * Retunr all events of user
  * @route GET /user/{id}/events
- * @group User - Operations about user profile
- * @param {integer} id.path.required - User ID
+ * @group User - Operations about user
+ * @param {integer} id.path.required - user_id
  * @returns {object} 200 - An object with "result"
- * @returns {Error} 400 - Bad request "user id or data is invalid"
- * @returns {Error} 404 - Page not found "user address was not found"
- * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
+ * @returns {Error} 400 - Bad request "user_id invalid"
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
 */
 router.get('/:id/events', checkParamsId, catchErrors(userController.getUserHasEvents));
 
 /**
- * Shows a User's Address by User ID
+ * Return a user address by user_id
  * @route GET /user/{id}/address
- * @group User - Operations about user profile
- * @param {integer} id.path.required - User ID
+ * @group User - Operations about user
+ * @param {integer} id.path.required - user_id
  * @returns {object} 200 - An object with "result"
- * @returns {Error} 400 - Bad request "user id or data is invalid"
- * @returns {Error} 404 - Page not found "user address was not found"
- * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
+ * @returns {Error} 400 - Bad request "user_id invalid"
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
 */
 router.get('/:id/address', checkParamsId, catchErrors(userController.getUserHasAddress));
 
 /**
- * Shows a User's Sport by User ID
+ * Return a user sport by user_id
  * @route GET /user/{id}/sports
- * @group User - Operations about user profile
- * @param {integer} id.path.required - User ID
+ * @group User - Operations about user
+ * @param {integer} id.path.required - user_id
  * @returns {object} 200 - An object with "result"
- * @returns {Error} 400 - Bad request "user id or data is invalid"
- * @returns {Error} 404 - Page not found "user address was not found"
- * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
+ * @returns {Error} 400 - Bad request "user_id invalid"
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
 */
 router.get('/:id/sports', checkParamsId, catchErrors(userController.getUsersport));
 
 /**
- * Create a User
+ * Create a user
  * @route POST /user/login
- * @group User - Operations about userLogin
+ * @group User - Operations about user
  * @param {UserLogin.model} data.body.required - email, password
- * @returns {object} 200 - An object with "result" user login
- * @returns {Error} 400 - Category must be a number
- * @returns {Error} 400 - {field} can't be empty or must be text
- * @returns {Error} 404 - Page not found "user was not found"
- * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request "data invalid"
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
-
 router.post('/login', catchErrors(userController.login));
 
 /**
- * Shows a User by its id
+ * Return a user by its id
  * @route GET /user/{id}
- * @group User - Operations about user profil
- * @param {integer} id.path.required - User ID 
+ * @group User - Operations about user
+ * @param {integer} id.path.required - user_id
  * @returns {object} 200 - An object with "result"
- * @returns {Error} 400 - Bad request "user id or data is invalid"
- * @returns {Error} 404 - Page not found "user was not found"
- * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ * @returns {Error} 400 - Bad request "user_id invalid"
+ * @returns {Error} 404 - Page not found 
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
  router.get('/:id', checkJWT, checkParamsId, validate(getSchema, 'params'), catchErrors(userController.getOne));
 
 /**
- * Modify user
+
+ * Modify a user
  * @route patch /user/{id}
- * @group User - Operations about user profil
- * @param {integer} id.path.required - User ID 
- * @param {UserPath.model} data.body.required - firstname, lastname, email, password, pseudo, picture, birthday, bio
- * @returns {object} 200 - An object with "result" user modify
- * @returns {Error} 400 - Bad request "user id or data is invalid"
- * @returns {Error} 404 - Page not found "user was not found"
- * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ * @group User - Operations about user
+ * @param {integer} id.path.required - user_id
+ * @param {UserPath.model} data.body.required - firstname, lastname, email, password, pseudo, picture, birthday, bio, number, street, zip_code, city, sport
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request "user_id or data invalid"
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
-router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), catchErrors(userController.modify));
+router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), upload.single('picture'), catchErrors(userController.modify));
 
 /**
  * Delete a User
  * @route DELETE /user/{id}
  * @group User - Operations about user
- * @param {integer} id.path.required - User ID 
- * @returns {object} 200 - An object with "result" user delete
- * @returns {Error} 400 - Category must be a number
- * @returns {Error} 404 - Page not found "user was not found"
- * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ * @param {integer} id.path.required - user_id
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request "user_id invalid"
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
 router.delete('/:id', checkParamsId, catchErrors(userController.delete));
 
@@ -179,11 +176,11 @@ router.delete('/:id', checkParamsId, catchErrors(userController.delete));
  * Create user
  * @route POST /user
  * @group User - Operations about user
- * @param {UserPost.model} data.body.required - firstname, lastname, email, password, repeat_password, pseudo, picture, birthday, bio
- * @returns {object} 200 - An object with "result" user create
- * @returns {Error} 400 - {field} can't be empty or must be text
- * @returns {Error} 404 - Page not found "user was not found"
- * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
+ * @param {UserPost.model} data.body.required - firstname, lastname, email, password, repeat_password, pseudo, sport
+ * @returns {object} 200 - An object with "result"
+ * @returns {Error} 400 - Bad request "data invalid"
+ * @returns {Error} 404 - Page not found
+ * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
 router.post('/', validate(postSchema, 'body'), catchErrors(userController.create));
 

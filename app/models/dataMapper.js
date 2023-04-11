@@ -118,7 +118,6 @@ const dataMapper = {
     const results = await client.query(query, [id, sportId]);
     return results.rowCount;
   },
-  
   /******************* End User ******************/
 
   /******************* Event *********************/
