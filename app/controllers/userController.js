@@ -1,17 +1,10 @@
-<<<<<<< HEAD
-const dataMapper = require ('../models/dataMapper');
-const APIError = require('../middlewares/handlers/APIError');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-SECRET_KEY='Un secret';
-=======
+
 const dataMapper = require("../models/dataMapper");
 const APIError = require("../middlewares/handlers/APIError");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const ACCESS_TOKEN_EXPIRATION = process.env.ACCESS_TOKEN_EXPIRATION;
->>>>>>> eb6fb2e1f233653e9799cbb06e2a9616f6906eab
 
 const userController = {
   // Return one user
@@ -61,13 +54,9 @@ const userController = {
   },
 
   // Modify one user
-<<<<<<< HEAD
+
   async modify (req, res, next) {
     const id = parseInt(req.params.id);
-=======
-  async modify(req, res, next) {
-    const id = req.params.id;
->>>>>>> eb6fb2e1f233653e9799cbb06e2a9616f6906eab
     const newUserData = req.body;
     const file = req.file;
 
@@ -137,17 +126,13 @@ const userController = {
     if (!results) {
       const err = new APIError(`Can not modify user with id : ${id}`, 400);
       return next(err);
-<<<<<<< HEAD
+
     };
     //send in database filename
     const fileName = `${id}_${file.originalname}`; 
     await dataMapper.updatePicture(id, fileName);
    
-=======
-    }
-    // Delete password key
-    delete results.password;
->>>>>>> eb6fb2e1f233653e9799cbb06e2a9616f6906eab
+
     res.status(200).json(results);
   },
   // Delete one user
@@ -179,16 +164,6 @@ const userController = {
 
     // Delete password key
     delete user.password;
-<<<<<<< HEAD
-    
-    const token = jwt.sign({ user: user }, SECRET_KEY, { expiresIn: '1h' });
-    console.log(token); // affiche le jeton JWT généré
-
-    const verifiedToken = jwt.verify(token, 'SECRET_KEsdqsdY');
-    console.log(verifiedToken.user); // affiche l'identifiant de l'utilisateur extrait du jeton
-=======
->>>>>>> eb6fb2e1f233653e9799cbb06e2a9616f6906eab
-
     // Create token
     const token = jwt.sign(
       {

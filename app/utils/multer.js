@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   },
   filename: function(req, file, callback) {
     //return user's id and user's filename 
-    callback(null, req.params.id + "_" + file.originalname);
+    callback(null, 'profil' + req.params.id + "_" + file.originalname);
   }
 });
 // Configure Multer with storage defined above

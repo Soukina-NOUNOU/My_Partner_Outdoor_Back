@@ -3,13 +3,9 @@ const userController = require ('../controllers/userController');
 const upload = require('../utils/multer');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
-<<<<<<< HEAD
-const { post: postSchema, path: patchSchema ,get: paramsSchema } = require('../middlewares/validation/schema/user');
-=======
 const { checkParamsId } = require ('../middlewares/checkParams');
 const { checkJWT } = require('../middlewares/security');
 const { post: postSchema, path: patchSchema ,get: getSchema } = require('../middlewares/validation/schema/user');
->>>>>>> eb6fb2e1f233653e9799cbb06e2a9616f6906eab
 const router = express.Router();
 
 
@@ -103,12 +99,7 @@ router.delete('/:id/address/:addressid', checkParamsId, catchErrors(userControll
  * @returns {Error} 404 - Page not found "user address was not found"
  * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
 */
-<<<<<<< HEAD
-router.get('/:id/events', validate( paramsSchema, 'params'), catchErrors(userController.getUserHasEvents));
-=======
 router.get('/:id/events', checkParamsId, catchErrors(userController.getUserHasEvents));
->>>>>>> eb6fb2e1f233653e9799cbb06e2a9616f6906eab
-
 /**
  * Shows a User's Address by User ID
  * @route GET /user/{id}/address
@@ -157,11 +148,7 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-<<<<<<< HEAD
- router.get('/:id', catchErrors(userController.getOne));
-=======
  router.get('/:id', checkJWT, checkParamsId, validate(getSchema, 'params'), catchErrors(userController.getOne));
->>>>>>> eb6fb2e1f233653e9799cbb06e2a9616f6906eab
 
 /**
  * Modify a User by its id
@@ -174,11 +161,7 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found "user was not found"
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-<<<<<<< HEAD
-router.patch('/:id', validate(patchSchema, 'body'), upload.single('picture') , catchErrors(userController.modify));
-=======
-router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), catchErrors(userController.modify));
->>>>>>> eb6fb2e1f233653e9799cbb06e2a9616f6906eab
+router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), upload.single('picture'), catchErrors(userController.modify));
 
 /**
  * Delete a User
