@@ -2,6 +2,8 @@ const express = require('express');
 const eventController = require ('../controllers/eventController');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
+const { checkParamsId } = require ('../middlewares/checkParams');
+const { checkJWT } = require('../middlewares/security');
 const { post: postSchema, get: getSchema, path: patchSchema } = require('../middlewares/validation/schema/event');
 const router = express.Router();
 
@@ -66,7 +68,7 @@ const router = express.Router();
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.delete('/:id/user/:userid', catchErrors(eventController.deleteUser));
+router.delete('/:id/user/:userid', checkParamsId, catchErrors(eventController.deleteUser));
 
 /**
  * Add user in one event
@@ -79,7 +81,7 @@ router.delete('/:id/user/:userid', catchErrors(eventController.deleteUser));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.post('/:id/user/:userid', catchErrors(eventController.createEventAsUser));
+router.post('/:id/user/:userid', checkParamsId, catchErrors(eventController.createEventAsUser));
 
 /**
  * Deletes message in one event
@@ -92,7 +94,7 @@ router.post('/:id/user/:userid', catchErrors(eventController.createEventAsUser))
  * @returns {Error} 404 - Event not found
  * @returns {Error} 500 - An error has occurred and we're working to fix problem!
  */
-router.delete('/:id/message/:messageid', catchErrors(eventController.deleteMessage));
+router.delete('/:id/message/:messageid', checkParamsId, catchErrors(eventController.deleteMessage));
 
 /**
  * Shows Users in event
@@ -104,7 +106,7 @@ router.delete('/:id/message/:messageid', catchErrors(eventController.deleteMessa
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.get('/:id/users', catchErrors(eventController. getEventUsers)),
+router.get('/:id/users', checkParamsId,catchErrors(eventController. getEventUsers)),
 
 /**
  * Shows All messages event
@@ -116,7 +118,7 @@ router.get('/:id/users', catchErrors(eventController. getEventUsers)),
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.get('/:id/messages', catchErrors(eventController.getMessages));
+router.get('/:id/messages', checkParamsId, catchErrors(eventController.getMessages));
 
 /**
  * Create a Event Message
@@ -130,7 +132,7 @@ router.get('/:id/messages', catchErrors(eventController.getMessages));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.post('/:id/message', catchErrors(eventController.createMessage));
+router.post('/:id/message', checkParamsId, catchErrors(eventController.createMessage));
 
 /**
  * Shows random events
@@ -166,7 +168,7 @@ router.get('/s', catchErrors(eventController.getSearch));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occured and we\'re working to fix problem!
  */
-router.get('/:id', validate(getSchema, 'params'), catchErrors(eventController.getOne));
+router.get('/:id', checkParamsId, validate(getSchema, 'params'), catchErrors(eventController.getOne));
 
 /**
  * Update an existing event
@@ -179,7 +181,7 @@ router.get('/:id', validate(getSchema, 'params'), catchErrors(eventController.ge
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occurred and we're working to fix the problem!
  */
-router.patch('/:id', validate(patchSchema, 'body'), catchErrors(eventController.modify));
+router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), catchErrors(eventController.modify));
 
 /**
  * Deletes an event by its id
@@ -191,7 +193,7 @@ router.patch('/:id', validate(patchSchema, 'body'), catchErrors(eventController.
  * @returns {Error} 404 - Event not found
  * @returns {Error} 500 - An error has occurred and we're working to fix problem!
  */
-router.delete('/:id', catchErrors(eventController.delete));
+router.delete('/:id', checkParamsId, catchErrors(eventController.delete));
 
 /**
  * Create a new Event

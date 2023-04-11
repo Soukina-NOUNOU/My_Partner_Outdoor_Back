@@ -97,7 +97,7 @@ const dataMapper = {
     const results = await client.query(query, [id]);
     return results.rows;
   },
-  //User has Sport
+  //Get all user Sport
   async userHasSport(id) {
     const query = `SELECT sport_id, "user_id", name
     FROM user_has_sport
