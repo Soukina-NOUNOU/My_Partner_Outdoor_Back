@@ -6,7 +6,6 @@ const eventController = {
   // Return one Event
   async getOne (req, res, next) {
     const id = req.params.id;
-    console.log(id);
     const results = await dataMapper.eventFindByPk(id);
     
     if(!results) {

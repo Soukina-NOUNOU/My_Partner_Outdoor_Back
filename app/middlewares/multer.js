@@ -1,19 +1,40 @@
 const multer = require('multer');
 const path = require('path');
 
-
 //Multipurpose Internet Mail Extensions = Pictire validation
 const MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
 
 const storage = multer.diskStorage({
   destination: function(req, file, callback) {
+    let destination = '';
+
+    if(req.baseUrl.slice(1) === 'user') {
+      destination = 'images/users';
+      // If we update event
+    } else if (req.baseUrl.slice(1) === 'event') {
+      destination = 'images/events';
+    }
+    
     // where to import the images
-    callback(null, 'images');
+    callback(null, destination);
   },
   filename: function(req, file, callback) {
-    //return user's id and extension 
+    let fileName = '';
+    // Extract Original name
     const extractOriginalName = path.extname(file.originalname);
-    callback(null, `profil${req.params.id}${extractOriginalName}`);
+
+    // Update picture field for BDD
+    // If we update user
+    if(req.baseUrl.slice(1) === 'user') {
+      req.body.picture = `/images/users/user${req.params.id}${extractOriginalName}`;
+      fileName = `user${req.params.id}${extractOriginalName}`;
+      // If we update event
+    } else if (req.baseUrl.slice(1) === 'event') {
+      req.body.picture = `/images/events/event${req.params.id}${extractOriginalName}`;
+      fileName = `event${req.params.id}${extractOriginalName}`;
+    }
+
+    callback(null, fileName);
   }
 });
 // Configure Multer with storage defined above
