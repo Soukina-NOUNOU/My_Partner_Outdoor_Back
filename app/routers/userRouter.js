@@ -1,6 +1,6 @@
 const express = require('express');
 const userController = require ('../controllers/userController');
-const upload = require('../utils/multer');
+const upload = require('../middlewares/multer');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
 const { checkParamsId } = require ('../middlewares/checkParams');
