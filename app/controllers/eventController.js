@@ -159,7 +159,7 @@ const eventController = {
       return next(err);
     };
 
-    // Return all results
+    // Return all results if no Departement
     if(!dept) {
       res.status(200).json(results);
     } else {
@@ -170,29 +170,34 @@ const eventController = {
           resultsWithDept.push(obj);
         }
       });
+
+    // If not results with departement
+    if(resultsWithDept.length === 0) {
+      const err = new APIError(`Can not find events with this search`, 400);
+      return next(err);
+    };
       
-      res.status(200).json(resultsWithDept);
+    res.status(200).json(resultsWithDept);
     }
   },
-  // Return users in one Event
+  // Return all users of event
   async getEventUsers (req, res, next){
-    const eventId = req.params.id;
-    const results = await dataMapper.eventHasUser(eventId);
+    const id = req.params.id;
+    const results = await dataMapper.eventHasUser(id);
       
-    if (!results) {
-      const err = new APIError(`Can not update event`, 400);
+    if (!results || results.length === 0) {
+      const err = new APIError(`Can not find users for event with id : ${id}`, 400);
       return next(err);
     }
       res.status(200).json(results);
   },
-  // Return messages in one Event
+  // Return all messages of event
   async getMessages (req, res, next){
-    const eventId = req.params.id;
-    const messages = req.body;
-    const results = await dataMapper.eventFindAllMessages(eventId, messages);
+    const id = req.params.id;
+    const results = await dataMapper.eventFindAllMessages(id);
 
-    if (!results) {
-      const err = new APIError(`Can not return messages`, 400);
+    if (!results || results.length === 0) {
+      const err = new APIError(`Can not find messages for event with id : ${id}`, 400);
       return next(err);
     }
     res.status(200).json(results);

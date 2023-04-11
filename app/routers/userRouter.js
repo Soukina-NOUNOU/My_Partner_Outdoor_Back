@@ -87,7 +87,7 @@ router.post('/:id/sport/:sportid', checkParamsId, catchErrors(userController.cre
 router.delete('/:id/address/:addressid', checkParamsId, catchErrors(userController.deleteAddress));
 
 /**
- * Return all events of user
+ * Retunr all events of user
  * @route GET /user/{id}/events
  * @group User - Operations about user
  * @param {integer} id.path.required - user_id
@@ -97,6 +97,7 @@ router.delete('/:id/address/:addressid', checkParamsId, catchErrors(userControll
  * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
 */
 router.get('/:id/events', checkParamsId, catchErrors(userController.getUserHasEvents));
+
 /**
  * Return a user address by user_id
  * @route GET /user/{id}/address
@@ -146,6 +147,7 @@ router.post('/login', catchErrors(userController.login));
  router.get('/:id', checkJWT, checkParamsId, validate(getSchema, 'params'), catchErrors(userController.getOne));
 
 /**
+
  * Modify a user
  * @route patch /user/{id}
  * @group User - Operations about user
@@ -171,7 +173,7 @@ router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), upload.single
 router.delete('/:id', checkParamsId, catchErrors(userController.delete));
 
 /**
- * Create a user
+ * Create user
  * @route POST /user
  * @group User - Operations about user
  * @param {UserPost.model} data.body.required - firstname, lastname, email, password, repeat_password, pseudo, sport
