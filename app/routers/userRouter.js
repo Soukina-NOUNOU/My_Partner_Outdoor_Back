@@ -63,11 +63,11 @@ const router = express.Router();
 router.delete('/:id/sport/:sportid', checkParamsId, catchErrors(userController.deleteSport));
 
 /**
- * Add sport for user by user id and sport id
+ * Add sport to user by user_id and sport_id
  * @route POST /user/{id}/sport/{sportid}
  * @group User - Operations about user
- * @param {integer} id.path.required - User ID - User ID
- * @param {integer} sportid.path.required - Sport ID - Sport ID
+ * @param {integer} id.path.required - user_id
+ * @param {integer} sportid.path.required - sport_id
  * @returns {object} 200 - An object with "result"
  * @returns {Error} 400 - Bad request
  * @returns {Error} 404 - Page not found
@@ -89,7 +89,7 @@ router.post('/:id/sport/:sportid', checkParamsId, catchErrors(userController.cre
 router.delete('/:id/address/:addressid', checkParamsId, catchErrors(userController.deleteAddress));
 
 /**
- * Shows a User's Events by User ID
+ * Retunr all events of user
  * @route GET /user/{id}/events
  * @group User - Operations about user profile
  * @param {integer} id.path.required - User ID
@@ -151,7 +151,7 @@ router.post('/login', catchErrors(userController.login));
  router.get('/:id', checkJWT, checkParamsId, validate(getSchema, 'params'), catchErrors(userController.getOne));
 
 /**
- * Modify a User by its id
+ * Modify user
  * @route patch /user/{id}
  * @group User - Operations about user profil
  * @param {integer} id.path.required - User ID 
@@ -176,7 +176,7 @@ router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), catchErrors(u
 router.delete('/:id', checkParamsId, catchErrors(userController.delete));
 
 /**
- * Create a User
+ * Create user
  * @route POST /user
  * @group User - Operations about user
  * @param {UserPost.model} data.body.required - firstname, lastname, email, password, repeat_password, pseudo, picture, birthday, bio
