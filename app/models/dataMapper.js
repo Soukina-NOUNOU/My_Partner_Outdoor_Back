@@ -50,8 +50,8 @@ const dataMapper = {
     const results = await client.query(query, [id]);
     return results.rowCount;
   },
-  // Login one user
-  async userLogin(email) {
+  // Select one user by email
+  async userFindByEmail(email) {
     const query = `SELECT * FROM "user"  WHERE "email"=$1`;
     const results = await client.query(query, [email]);
     return results.rows[0];
@@ -118,7 +118,6 @@ const dataMapper = {
     const results = await client.query(query, [id, sportId]);
     return results.rowCount;
   },
-  
   /******************* End User ******************/
 
   /******************* Event *********************/
@@ -310,7 +309,7 @@ const dataMapper = {
   /******************* End Address **************/
 
   /******************* Sport ********************/
-  async getSport(obj) {
+  async sportFindOne(obj) {
     const query = `SELECT * FROM "sport" WHERE "name"=$1`;
     const results = await client.query(query, [obj.sport]);
     return results.rows[0];
@@ -318,7 +317,7 @@ const dataMapper = {
   /******************* End Sport ****************/
 
   /******************* Level ********************/
-  async getLevel(obj) {
+  async levelFindOne(obj) {
     const query = `SELECT * FROM "level" WHERE "name"=$1`;
     const results = await client.query(query, [obj.level]);
     return results.rows[0];

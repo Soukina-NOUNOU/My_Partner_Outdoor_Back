@@ -15,6 +15,9 @@ expressSwagger(confSwagger);
 
 app.use(express.json());
 
+// app.use(express.static("./images"));
+app.use('/images', express.static('images'));
+
 app.use(cors());
 
 app.use(router);

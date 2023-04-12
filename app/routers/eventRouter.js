@@ -1,5 +1,6 @@
 const express = require('express');
 const eventController = require ('../controllers/eventController');
+const upload = require('../middlewares/multer');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
 const { checkParamsId } = require ('../middlewares/checkParams');
@@ -177,7 +178,7 @@ router.get('/:id', checkParamsId, validate(getSchema, 'params'), catchErrors(eve
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
-router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), catchErrors(eventController.modify));
+router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), upload.single('picture'), catchErrors(eventController.modify));
 
 /**
  * Deletes an event by its id
@@ -201,6 +202,6 @@ router.delete('/:id', checkParamsId, catchErrors(eventController.delete));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
-router.post('/', validate(postSchema, 'body'), catchErrors(eventController.create));
+router.post('/', validate(postSchema, 'body'), upload.single('picture'), catchErrors(eventController.create));
 
 module.exports = router;

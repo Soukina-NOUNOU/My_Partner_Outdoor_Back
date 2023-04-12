@@ -1,3 +1,4 @@
+
 const dataMapper = require("../models/dataMapper");
 const APIError = require("../middlewares/handlers/APIError");
 const bcrypt = require("bcrypt");
@@ -24,6 +25,12 @@ const userController = {
   // Create one user
   async create(req, res, next) {
     const user = req.body;
+    // Check if email already exist
+    const userEmail = await dataMapper.userFindByEmail(user.email);
+    if (userEmail) {
+      const err = new APIError(`Email is already registered`, 400);
+      return next(err);
+    };
 
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
@@ -34,9 +41,9 @@ const userController = {
       const err = new APIError(`Can not create a user`, 400);
       return next(err);
     }
-
+    
     // Return selected sport
-    const sport = await dataMapper.getSport(user);
+    const sport = await dataMapper.sportFindOne(user);
 
     // Add Sport to user list sport
     const userHasSport = await dataMapper.userCreateHasSport(
@@ -53,9 +60,11 @@ const userController = {
   },
 
   // Modify one user
-  async modify(req, res, next) {
-    const id = req.params.id;
+
+  async modify (req, res, next) {
+    const id = parseInt(req.params.id);
     const newUserData = req.body;
+    
 
     // Compare old and new data
     const user = await dataMapper.userFindByPk(id);
@@ -123,9 +132,9 @@ const userController = {
     if (!results) {
       const err = new APIError(`Can not modify user with id : ${id}`, 400);
       return next(err);
-    }
-    // Delete password key
-    delete results.password;
+
+    };
+   
     res.status(200).json(results);
   },
   // Delete one user
@@ -143,21 +152,20 @@ const userController = {
   // Login one user
   async login(req, res, next) {
     const { email, password } = req.body;
-    const user = await dataMapper.userLogin(email);
+    const user = await dataMapper.userFindByEmail(email);
     if (!user) {
       const err = new APIError(`Can not login user Invalid email`, 400);
       return next(err);
-    }
+    };
 
     const resultsPassword = await bcrypt.compare(password, user.password);
     if (!resultsPassword) {
       const err = new APIError(`Can not login user Invalid password`, 400);
       return next(err);
-    }
+    };
 
     // Delete password key
     delete user.password;
-
     // Create token
     const token = jwt.sign(
       {
@@ -177,47 +185,38 @@ const userController = {
     req.session.user = "";
     res.status(200);
   },
-  // Return all user address
+  // Return all address
   async getUserHasAddress(req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.userHasAddress(id);
 
-    if (!results) {
-      const err = new APIError(
-        `Can not find address user with id : ${id}`,
-        400
-      );
+    if (!results || results.length === 0) {
+      const err = new APIError(`Can not find address for user with id : ${id}`,400);
       return next(err);
     }
 
     res.status(200).json(results);
   },
 
-  //return all sport user
+  // Return all sports
   async getUsersport(req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.userHasSport(id);
 
-    if (!results) {
-      const err = new APIError(
-        `Can not find sport user's with id : ${id}`,
-        400
-      );
+    if (!results || results.length === 0) {
+      const err = new APIError(`Can not find sport for user with id : ${id}`,400);
       return next(err);
     }
 
     res.status(200).json(results);
   },
-  // Return all user events
+  // Return all events
   async getUserHasEvents(req, res, next) {
     const id = req.params.id;
     const results = await dataMapper.userHasEvents(id);
 
-    if (!results) {
-      const err = new APIError(
-        `Can not find events for user with id : ${id}`,
-        400
-      );
+    if (!results || results.length === 0) {
+      const err = new APIError(`Can not find events for user with id : ${id}`,400);
       return next(err);
     }
 
