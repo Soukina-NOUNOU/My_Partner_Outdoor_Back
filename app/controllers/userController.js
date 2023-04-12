@@ -43,7 +43,7 @@ const userController = {
     }
     
     // Return selected sport
-    const sport = await dataMapper.getSport(user);
+    const sport = await dataMapper.sportFindOne(user);
 
     // Add Sport to user list sport
     const userHasSport = await dataMapper.userCreateHasSport(

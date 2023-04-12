@@ -309,7 +309,7 @@ const dataMapper = {
   /******************* End Address **************/
 
   /******************* Sport ********************/
-  async getSport(obj) {
+  async sportFindOne(obj) {
     const query = `SELECT * FROM "sport" WHERE "name"=$1`;
     const results = await client.query(query, [obj.sport]);
     return results.rows[0];
@@ -317,7 +317,7 @@ const dataMapper = {
   /******************* End Sport ****************/
 
   /******************* Level ********************/
-  async getLevel(obj) {
+  async levelFindOne(obj) {
     const query = `SELECT * FROM "level" WHERE "name"=$1`;
     const results = await client.query(query, [obj.level]);
     return results.rows[0];
