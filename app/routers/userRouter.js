@@ -123,7 +123,7 @@ router.get('/:id/address', checkParamsId, catchErrors(userController.getUserHasA
 router.get('/:id/sports', checkParamsId, catchErrors(userController.getUsersport));
 
 // Upload image
-router.patch('/:id/upload', upload.single('picture'), catchErrors(userController.modify));
+router.patch('/:id/upload', checkParamsId, upload.single('picture'), catchErrors(userController.modify));
 
 /**
  * Create a user
