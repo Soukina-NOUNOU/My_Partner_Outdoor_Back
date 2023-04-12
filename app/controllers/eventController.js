@@ -20,9 +20,9 @@ const eventController = {
     // Create address
     const address = await dataMapper.addressCreate(event);
     // Return selected sport
-    const sport = await dataMapper.getSport(event);
+    const sport = await dataMapper.sportFindOne(event);
     // Retunr selected level
-    const level = await dataMapper.getLevel(event);
+    const level = await dataMapper.levelFindOne(event);
     // Create event
     const results = await dataMapper.eventCreate(event, address.id, sport.id, level.id);
     if(!results) {
@@ -105,13 +105,13 @@ const eventController = {
 
     // If we need to update Sport, Return selected sport
     if (newEventData.sport) {
-      const sport = await dataMapper.getSport(event);
+      const sport = await dataMapper.sportFindOne(event);
       event.sport_id = sport.id
     };
     
     // If we need to update Level, Return selected level
     if (newEventData.level) {
-      const level = await dataMapper.getLevel(event);
+      const level = await dataMapper.levelFindOne(event);
       event.level_id = level.id
     };
     
