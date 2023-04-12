@@ -21,7 +21,6 @@ const userController = {
     delete results.password;
     res.status(200).json(results);
   },
-
   // Create one user
   async create(req, res, next) {
     const user = req.body;
@@ -58,9 +57,7 @@ const userController = {
     delete results.password;
     res.status(200).json(results);
   },
-
   // Modify one user
-
   async modify (req, res, next) {
     const id = parseInt(req.params.id);
     const newUserData = req.body;
@@ -134,7 +131,9 @@ const userController = {
       return next(err);
 
     };
-   
+    
+    // Delete password key
+    delete results.password;
     res.status(200).json(results);
   },
   // Delete one user
@@ -148,7 +147,6 @@ const userController = {
 
     res.status(200).json(`User with id : ${id} has been deleted`);
   },
-
   // Login one user
   async login(req, res, next) {
     const { email, password } = req.body;
@@ -178,7 +176,9 @@ const userController = {
     );
     res.header("Authorization", "Bearer " + token);
 
-    res.status(200).json(token, user);
+    user.token = token;
+
+    res.status(200).json(user);
   },
 
   logout(req, res) {
@@ -197,7 +197,6 @@ const userController = {
 
     res.status(200).json(results);
   },
-
   // Return all sports
   async getUsersport(req, res, next) {
     const id = req.params.id;
@@ -222,7 +221,6 @@ const userController = {
 
     res.status(200).json(results);
   },
-
   // Add sport for user
   async createUserHasSport(req, res, next) {
     const id = req.params.id;
@@ -252,7 +250,6 @@ const userController = {
       res.status(200).json(`Sport with id : ${sportid} has been added to user with id : ${id}`);
     };
   },
-
   // Delete user address
   async deleteAddress(req, res, next) {
     const id = req.params.id;

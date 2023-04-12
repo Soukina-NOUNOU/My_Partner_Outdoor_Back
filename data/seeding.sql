@@ -12,13 +12,36 @@ VALUES
 INSERT INTO "sport"
 ("name")
 VALUES
-('FootBall'),
-('VolleyBall'),
-('BasketBall'),
-('PingPong'),
-('Tennis'),
-('Velo'),
-('Badminton');
+('Randonnée'),
+('Course à pied'),
+('Trail'),
+('Triathlon'),
+('VTT'),
+('Cyclisme'),
+('BMX'),
+('Escalade'),
+('Via ferrata'),
+('Canyoning'),
+('Rafting'),
+('Kayak'),
+('Stand-up paddle'),
+('Voile'),
+('Kite-surf'),
+('Ski'),
+('Snowboard'),
+('Airsoft'),
+('Paintball'),
+('Plongée'),
+('Volley-ball'),
+('Parapente'),
+('Tir à l’arc'),
+('Ski nautique'),
+('Wakeboard'),
+('Surf'),
+('Football'),
+('Rugby'),
+('Basket-ball'),
+('Handball');
 
 INSERT INTO "level"
 ("name")

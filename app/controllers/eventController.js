@@ -1,6 +1,5 @@
 const dataMapper = require ('../models/dataMapper');
 const APIError = require('../middlewares/handlers/APIError');
-const { exist } = require('joi');
 
 const eventController = {
   // Return one Event
@@ -41,7 +40,6 @@ const eventController = {
 
     res.status(200).json(results); 
   },
-
   // Add user to Event
   async createEventAsUser (req, res, next) {
     const eventId = req.params.id;
@@ -70,7 +68,6 @@ const eventController = {
       res.status(200).json(`User with id : ${userId} has been added to event with id : ${eventId}`);
     };
   },
-
   // Modify one Event
   async modify (req, res, next) {
     const id = req.params.id;
