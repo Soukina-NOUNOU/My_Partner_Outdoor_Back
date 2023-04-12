@@ -179,7 +179,7 @@ router.get('/:id', checkParamsId, validate(getSchema, 'params'), catchErrors(eve
  * @route PATCH /event/{id}
  * @group Event - Operations about event
  * @param {integer} id.path.required - event_id
- * @param {EventPatch.model} data.body.required - title, description, start, finish, nb_participant, equipement, price, picture, number, street, zip_code, city, level, sport
+ * @param {EventPatch.model} data.body.required - title, description, start_date, finish_date, start_hour, finish_hour , nb_participant, equipement, price, picture, number, street, zip_code, city, level, sport
  * @returns {object} 200 - An object with "result"
  * @returns {Error} 400 - Bad request "event_id or data invalid"
  * @returns {Error} 404 - Page not found
@@ -203,7 +203,7 @@ router.delete('/:id', checkParamsId, catchErrors(eventController.delete));
  * Create a new event
  * @route POST /event
  * @group Event - Operations about event
- * @param {EventPost.model} data.body.required title, description, start, finish, nb_participant, equipement, price, picture, number, street, zip_code, city, sport, level
+ * @param {EventPost.model} data.body.required title, description, start_date, finish_date, start_hour, finish_hour, nb_participant, equipement, price, picture, number, street, zip_code, city, sport, level
  * @returns {object} 200 - An object with "result"
  * @returns {Error} 400 -  Bad request "data invalid"
  * @returns {Error} 404 - Page not found
