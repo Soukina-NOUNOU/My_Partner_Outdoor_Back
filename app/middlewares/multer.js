@@ -7,7 +7,7 @@ const MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
 const storage = multer.diskStorage({
   destination: function(req, file, callback) {
     let destination = '';
-
+    
     if(req.baseUrl.slice(1) === 'user') {
       destination = 'images/users';
       // If we update event

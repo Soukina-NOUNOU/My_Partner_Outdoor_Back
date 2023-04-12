@@ -122,6 +122,9 @@ router.get('/:id/address', checkParamsId, catchErrors(userController.getUserHasA
 */
 router.get('/:id/sports', checkParamsId, catchErrors(userController.getUsersport));
 
+// Upload image
+router.patch('/:id/upload', upload.single('picture'), catchErrors(userController.modify));
+
 /**
  * Create a user
  * @route POST /user/login
@@ -158,7 +161,7 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
-router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), upload.single('picture'), catchErrors(userController.modify));
+router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), catchErrors(userController.modify));
 
 /**
  * Delete a User
