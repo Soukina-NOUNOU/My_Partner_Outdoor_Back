@@ -78,7 +78,7 @@ const eventController = {
 
     // Compare old and new data
     const event = await dataMapper.eventFindByPk(id);
-    const fields = ['title', 'description', 'start', 'finish', 'nb_participant', 'equipement', 'price', 'picture', 'number', 'street', 'zip_code', 'city', 'level', 'sport'];
+    const fields = ['title', 'description', 'start_date', 'finish_date', 'start_hour', 'finish_hour','nb_participant', 'equipement', 'price', 'picture', 'number', 'street', 'zip_code', 'city', 'level', 'sport'];
     fields.forEach(field => {
       if (newEventData[field]) {
         event[field] = newEventData[field];

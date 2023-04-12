@@ -13,8 +13,10 @@ const router = express.Router();
  * @typedef EventPost
  * @property {string} title - Tournois de Football
  * @property {string} description - Tournois de Football 5 vs 5
- * @property {timestamp} start - 13H00
- * @property {timestamp} finish - 17H00
+ * @property {string} start_date - 12/05/2023
+ * @property {string} finish_date - 12/05/2023
+ * @property {string} start_hour - 13:00
+ * @property {string} finish_hour - 17:00
  * @property {integer} nb_participant - 25
  * @property {string} equipement - Chaussures de Foot et protections
  * @property {number} price - 0

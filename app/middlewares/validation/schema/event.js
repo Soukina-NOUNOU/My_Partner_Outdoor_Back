@@ -5,8 +5,10 @@ const schemas = {
         //data validation for route creation (route post event)
         title: Joi.string().required(), //title is required and it must be a character string
         description: Joi.string().required(), //description is required and it must be a character string
-        start: Joi.date().required(), //the start event is required and it must be a character string
-        finish: Joi.date().required(), //the end event is required and it must be a character string
+        start_date: Joi.string().pattern(/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}$/).message('require this format: jj/mm/aaaa').required(), //the start date event is required with this format: day from 01 to 31, month from 01 to 12 and four-digit year
+        finish_date: Joi.string().pattern(/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}$/).message('require this format: jj/mm/aaaa').required(), //the end date event is required with this format: day from 01 to 31, month from 01 to 12 and four-digit year
+        start_hour: Joi.string().pattern(/^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/).message('hour require this format: hh:mm with valid time').required(), //the start hour event is required with this format: hour from 00 to 23 and minutes from 00 to 59 including ":" between hour and minutes
+        finish_hour: Joi.string().pattern(/^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/).message('hour require this format: hh:mm with valid time').required(), //the end event hour is required with this format: hour from 00 to 23 and minutes from 00 to 59 including ":" between hour and minutes 
         nb_participant: Joi.number().integer().required(), //number participants is required and it must be a number
         equipement: Joi.string().optional(), //equipement is optional and it must be a character string
         price: Joi.number().optional(), //price is optional and it must be a number
@@ -23,8 +25,10 @@ const schemas = {
         //data validation for route creation (route patch event)
         title: Joi.string().optional(), //title is optional and it must be a character string
         description: Joi.string().optional(), //description is optional and it must be a character string
-        start: Joi.date().optional(), //the start event is optional and it must be a character string
-        finish: Joi.date().optional(),//the end event is optional and it must be a character string
+        start_date: Joi.string().pattern(/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}$/).message('require this format: jj/mm/aaaa').optional(), //the start date event is required with this format: day from 01 to 31, month from 01 to 12 and four-digit year
+        finish_date: Joi.string().pattern(/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}$/).message('require this format: jj/mm/aaaa').optional(), //the end date event is required with this format: day from 01 to 31, month from 01 to 12 and four-digit year
+        start_hour: Joi.string().pattern(/^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/).message('hour require this format: hh:mm with valid time').optional(), //the start hour event is required with this format: hour from 00 to 23 and minutes from 00 to 59 including ":" between hour and minutes
+        finish_hour: Joi.string().pattern(/^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/).message('hour require this format: hh:mm with valid time').optional(), //the end event hour is required with this format: hour from 00 to 23 and minutes from 00 to 59 including ":" between hour and minutes 
         nb_participant: Joi.number().integer().optional(), //number participants is optional and it must be a number
         equipement: Joi.string().optional(), //equipement is optional and it must be a character string
         price: Joi.number().optional(),//price is optional and it must be a number

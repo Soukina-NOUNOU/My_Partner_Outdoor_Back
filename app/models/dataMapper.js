@@ -139,14 +139,16 @@ const dataMapper = {
   },
   // Create one event
   async eventCreate(event, addressId, sportId, levelId) {
-    const query = `INSERT INTO "event"(title, description, start, finish, nb_participant, equipement, price, picture, organizer_id, sport_id, level_id, address_id)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    const query = `INSERT INTO "event"(title, description, start_date, finish_date, start_hour, finish_hour, nb_participant, equipement, price, picture, organizer_id, sport_id, level_id, address_id)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
     RETURNING *`;
     const values = [
       event.title,
       event.description,
-      event.start,
-      event.finish,
+      event.start_date,
+      event.finish_date,
+      event.start_hour,
+      event.finish_hour,
       event.nb_participant,
       event.equipement,
       event.price,
@@ -165,24 +167,28 @@ const dataMapper = {
       UPDATE "event" 
       SET title = $1,
         description = $2,
-        start = $3,
-        finish = $4,
-        nb_participant = $5,
-        equipement = $6,
-        price = $7,
-        picture = $8,
-        organizer_id = $9,
-        sport_id = $10,
-        level_id = $11,
-        address_id = $12
-      WHERE id = $13
+        start_date = $3,
+        finish_date = $4,
+        start_hour = $5,
+        finish_hour = $6,
+        nb_participant = $7,
+        equipement = $8,
+        price = $9,
+        picture = $10,
+        organizer_id = $11,
+        sport_id = $12,
+        level_id = $13,
+        address_id = $14
+      WHERE id = $15
       RETURNING *;
     `;
     const values = [
       event.title,
       event.description,
-      event.start,
-      event.finish,
+      event.start_date,
+      event.finish_date,
+      event.start_hour,
+      event.finish_hour,
       event.nb_participant,
       event.equipement,
       event.price,
