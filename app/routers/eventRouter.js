@@ -35,8 +35,10 @@ const router = express.Router();
  * @typedef EventPatch
  * @property {string} title - Tournois de Tennis
  * @property {string} description - Tournois de Tennis à élimination direct en 3 sets
- * @property {timestamp} start - 13H00
- * @property {timestamp} finish - 17H00
+ * @property {string} start_date - 12/05/2023
+ * @property {string} finish_date - 12/05/2023
+ * @property {string} start_hour - 13:00
+ * @property {string} finish_hour - 17:00
  * @property {integer} nb_participant - 20
  * @property {string} equipement - Raquettes et balles de tennis
  * @property {number} price - 0
@@ -134,7 +136,7 @@ router.get('/:id/messages', checkParamsId, catchErrors(eventController.getMessag
 router.post('/:id/message', checkParamsId, catchErrors(eventController.createMessage));
 
 // Upload image
-router.patch('/:id/upload', upload.single('picture'), catchErrors(eventController.modify));
+router.patch('/:id/upload', checkParamsId, upload.single('picture'), catchErrors(eventController.modify));
 
 /**
  * Return random events
