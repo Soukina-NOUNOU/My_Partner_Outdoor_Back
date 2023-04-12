@@ -170,7 +170,7 @@ const userController = {
     );
     res.header("Authorization", "Bearer " + token);
 
-    res.status(200).json('auth ok');
+    res.status(200).json(token, user);
   },
 
   logout(req, res) {
