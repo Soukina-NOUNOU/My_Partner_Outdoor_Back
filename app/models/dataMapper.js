@@ -125,7 +125,7 @@ const dataMapper = {
   async eventFindByPk(id) {
     // const query = `SELECT * FROM "event" WHERE "id"=$1`;
     const query = `
-      SELECT event.id, event.title, event.description, event.start, event.finish, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
+      SELECT event.id, event.title, event.description, event.start_date, event.finish_date, event.start_hour, event.finish_hour, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
       address.number, address.street, address.zip_code, address.city, "user".pseudo, sport.name AS sport, level.name AS level 
       FROM "event"
       JOIN "sport" ON event.sport_id = sport.id
@@ -212,7 +212,7 @@ const dataMapper = {
   // Select random events
   async eventFindRandom() {
     const query = `
-      SELECT event.id, event.title, event.description, event.start, event.finish, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
+      SELECT event.id, event.title, event.description, event.start_date, event.finish_date, event.start_hour, event.finish_hour, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
       address.number, address.street, address.zip_code, address.city, "user".pseudo, sport.name AS sport, level.name AS level 
       FROM "event"
       JOIN "sport" ON event.sport_id = sport.id
@@ -227,7 +227,7 @@ const dataMapper = {
   // Select events by search
   async eventFindSearch(search) {
     const query = `
-    SELECT event.id, event.title, event.description, event.start, event.finish, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
+    SELECT event.id, event.title, event.description, event.start_date, event.finish_date, event.start_hour, event.finish_hour, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
     address.number, address.street, address.zip_code, address.city, "user".pseudo, sport.name AS sport, level.name AS level 
     FROM "event"
     JOIN "sport" ON event.sport_id = sport.id
