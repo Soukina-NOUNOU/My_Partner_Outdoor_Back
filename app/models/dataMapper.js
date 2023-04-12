@@ -314,6 +314,12 @@ const dataMapper = {
     const results = await client.query(query, [obj.sport]);
     return results.rows[0];
   },
+
+  async sportFindAll() {
+    const query = `SELECT * FROM "sport"`;
+    const results = await client.query(query);
+    return results.rows;
+  },
   /******************* End Sport ****************/
 
   /******************* Level ********************/
@@ -321,6 +327,11 @@ const dataMapper = {
     const query = `SELECT * FROM "level" WHERE "name"=$1`;
     const results = await client.query(query, [obj.level]);
     return results.rows[0];
+  },
+  async levelFindAll() {
+    const query = `SELECT * FROM "level"`;
+    const results = await client.query(query);
+    return results.rows;
   },
   /******************* End Level ****************/
 };
