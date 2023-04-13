@@ -247,7 +247,7 @@ const userController = {
           return next(err);
       };
 
-      res.status(200).json(`Sport with id : ${sportid} has been added to user with id : ${id}`);
+      res.status(200).json(`Sport with id : ${sportId} has been added to user with id : ${id}`);
     };
   },
   // Delete user address
