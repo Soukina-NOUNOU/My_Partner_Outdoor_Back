@@ -150,7 +150,6 @@ router.post('/login', catchErrors(userController.login));
  router.get('/:id', checkJWT, checkParamsId, validate(getSchema, 'params'), catchErrors(userController.getOne));
 
 /**
-
  * Modify a user
  * @route patch /user/{id}
  * @group User - Operations about user
