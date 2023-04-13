@@ -22,6 +22,8 @@ const eventController = {
     const sport = await dataMapper.sportFindOne(event);
     // Retunr selected level
     const level = await dataMapper.levelFindOne(event);
+    // Insert image url
+    event.picture = `src/assets/resource/sports/${sport.name}.jpg`;
     // Create event
     const results = await dataMapper.eventCreate(event, address.id, sport.id, level.id);
     if(!results) {
