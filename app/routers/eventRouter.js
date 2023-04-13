@@ -134,7 +134,7 @@ router.get('/:id/messages', checkParamsId, catchErrors(eventController.getMessag
 router.post('/:id/message', checkParamsId, catchErrors(eventController.createMessage));
 
 // Upload image
-router.patch('/:id/upload', upload.single('picture'), catchErrors(eventController.modify));
+router.patch('/:id/upload', checkParamsId, upload.single('picture'), catchErrors(eventController.modify));
 
 /**
  * Return random events
