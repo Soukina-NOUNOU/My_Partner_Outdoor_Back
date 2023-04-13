@@ -1,5 +1,6 @@
 const dataMapper = require ('../models/dataMapper');
 const APIError = require('../middlewares/handlers/APIError');
+const formatDate = require('../utils/formatDate');
 
 const eventController = {
   // Return one Event
@@ -24,6 +25,10 @@ const eventController = {
     const level = await dataMapper.levelFindOne(event);
     // Insert image url
     event.picture = `src/assets/resource/sports/${sport.id}.jpg`;
+    // Formate Date
+    event.start_date = formatDate('start_date');
+    event.finish_date = formatDate('finish_date');
+    console.log(start_date);
     // Create event
     const results = await dataMapper.eventCreate(event, address.id, sport.id, level.id);
     if(!results) {
