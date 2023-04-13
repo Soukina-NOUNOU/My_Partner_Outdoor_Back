@@ -35,8 +35,10 @@ const router = express.Router();
  * @typedef EventPatch
  * @property {string} title - Tournois de Tennis
  * @property {string} description - Tournois de Tennis à élimination direct en 3 sets
- * @property {timestamp} start - 13H00
- * @property {timestamp} finish - 17H00
+ * @property {string} start_date - 12/05/2023
+ * @property {string} finish_date - 12/05/2023
+ * @property {string} start_hour - 13:00
+ * @property {string} finish_hour - 17:00
  * @property {integer} nb_participant - 20
  * @property {string} equipement - Raquettes et balles de tennis
  * @property {number} price - 0
@@ -177,7 +179,7 @@ router.get('/:id', checkParamsId, validate(getSchema, 'params'), catchErrors(eve
  * @route PATCH /event/{id}
  * @group Event - Operations about event
  * @param {integer} id.path.required - event_id
- * @param {EventPatch.model} data.body.required - title, description, start, finish, nb_participant, equipement, price, picture, number, street, zip_code, city, level, sport
+ * @param {EventPatch.model} data.body.required - title, description, start_date, finish_date, start_hour, finish_hour , nb_participant, equipement, price, picture, number, street, zip_code, city, level, sport
  * @returns {object} 200 - An object with "result"
  * @returns {Error} 400 - Bad request "event_id or data invalid"
  * @returns {Error} 404 - Page not found
@@ -201,7 +203,7 @@ router.delete('/:id', checkParamsId, catchErrors(eventController.delete));
  * Create a new event
  * @route POST /event
  * @group Event - Operations about event
- * @param {EventPost.model} data.body.required title, description, start, finish, nb_participant, equipement, price, picture, number, street, zip_code, city, sport, level
+ * @param {EventPost.model} data.body.required title, description, start_date, finish_date, start_hour, finish_hour, nb_participant, equipement, price, picture, number, street, zip_code, city, sport, level
  * @returns {object} 200 - An object with "result"
  * @returns {Error} 400 -  Bad request "data invalid"
  * @returns {Error} 404 - Page not found

@@ -1,5 +1,6 @@
 const dataMapper = require ('../models/dataMapper');
 const APIError = require('../middlewares/handlers/APIError');
+const formatDate = require('../utils/formatDate');
 
 const eventController = {
   // Return one Event
@@ -22,6 +23,11 @@ const eventController = {
     const sport = await dataMapper.sportFindOne(event);
     // Retunr selected level
     const level = await dataMapper.levelFindOne(event);
+    // Insert image url
+    event.picture = `src/assets/resource/sports/${sport.id}.jpg`;
+    // Formate Date
+    event.start_date = formatDate(event.start_date);
+    event.finish_date = formatDate(event.finish_date);
     // Create event
     const results = await dataMapper.eventCreate(event, address.id, sport.id, level.id);
     if(!results) {
@@ -75,13 +81,19 @@ const eventController = {
 
     // Compare old and new data
     const event = await dataMapper.eventFindByPk(id);
-    const fields = ['title', 'description', 'start_date', 'finish_date', 'start_hour', 'finish_hour','nb_participant', 'equipement', 'price', 'picture', 'number', 'street', 'zip_code', 'city', 'level', 'sport'];
+    const fields = ['title', 'description', 'start_hour', 'finish_hour','nb_participant', 'equipement', 'price', 'picture', 'number', 'street', 'zip_code', 'city', 'level', 'sport'];
     fields.forEach(field => {
       if (newEventData[field]) {
         event[field] = newEventData[field];
       }
     });
-
+    // Compare and format Date 
+    const fieldsDate = ['start_date', 'finish_date'];
+    fieldsDate.forEach(field => {
+      if (newEventData[field]) {
+        event[field] = formatDate(newEventData[field]);
+      }
+    });
     // Update address
     // Check if we have some fields to update
     const fieldsAddress = ['number', 'street', 'zip_code', 'city'];
