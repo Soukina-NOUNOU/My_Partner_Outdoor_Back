@@ -85,7 +85,7 @@ const dataMapper = {
   //Get all user events
   async userHasEvents(id) {
     const query = `
-    SELECT event.id, event.title, event.description, event.start, event.finish, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
+    SELECT event.id, event.title, event.description, event.start_date, event.finish_date, event.start_hour, event.finish_hour, event.nb_participant, event.equipement, event.price, event.picture, event.organizer_id, event.sport_id, event.level_id, event.address_id,
     address.number, address.street, address.zip_code, address.city, sport.name AS sport, level.name AS level
     FROM event_has_user
     JOIN "event" ON event_has_user.event_id = "event".id
