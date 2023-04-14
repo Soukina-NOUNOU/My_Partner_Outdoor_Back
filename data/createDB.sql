@@ -62,7 +62,7 @@ CREATE TABLE "event" (
   "equipement" TEXT,
   "price" DECIMAL(12,2),
   "picture" TEXT,
-  "organizer_id" INT NOT NULL REFERENCES "user"("id"),
+  "organizer_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "sport_id" INT NOT NULL REFERENCES "sport"("id"),
   "level_id" INT NOT NULL REFERENCES "level"("id"),
   "address_id" INT NOT NULL REFERENCES "address"("id"),
@@ -84,7 +84,7 @@ CREATE TABLE "message" (
 CREATE TABLE "event_has_user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "event_id" INT NOT NULL REFERENCES "event"("id") ON DELETE CASCADE,
-  "user_id" INT NOT NULL REFERENCES "user"("id")
+  "user_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE "user_has_address" (
