@@ -9,7 +9,7 @@ const schemas = {
         password: Joi.string().pattern(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).required(), //password must include: an uppercase letter, a lowercase letter, a special character, a number and all this must include 8 characters
         repeat_password: Joi.ref('password'), //repeat password
         pseudo: Joi.string().required(), //pseudo is required and it must be a character string
-        birthday: Joi.string().pattern(/^[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}$/).optional(), //birthday is optional but must respect a specific format: (12/12/2012)
+        birthday: Joi.string().pattern(/^([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/).message('require this format: aaaa-mm-jj').optional(), //birthday is optional but must respect a specific format: (12/12/2012)
         picture: Joi.string().optional(), //adding picture is optional
         bio: Joi.string().max(500).allow('').optional(), //biographie is optional and must not exceed 500 characters
         sport: Joi.string().required() //adding sport is require
@@ -24,7 +24,7 @@ const schemas = {
         repeat_password: Joi.ref('password'),// repeat password
         pseudo: Joi.string().optional(), //changing pseudo is optional
         picture: Joi.string().optional(), //changing picture is optional 
-        birthday: Joi.string().pattern(/^[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}$/).optional(),//birthday is optional but must respect a specific format: (12/12/2012)
+        birthday: Joi.string().pattern(/^([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/).message('require this format: aaaa-mm-jj').optional(),//birthday is optional but must respect a specific format: (12/12/2012)
         bio: Joi.string().max(500).allow('').optional(),  // The biographie is optional and must not exceed 500 characters
         number: Joi.number().integer().optional(), //changing number is optional
         street: Joi.string().optional(), //changing street is optional

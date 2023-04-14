@@ -1,6 +1,6 @@
 const dataMapper = require ('../models/dataMapper');
 const APIError = require('../middlewares/handlers/APIError');
-const formatDate = require('../utils/formatDate');
+const { formatDate } = require('../utils/formatDate');
 
 const eventController = {
   // Return one Event
