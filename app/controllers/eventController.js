@@ -24,7 +24,7 @@ const eventController = {
     // Retunr selected level
     const level = await dataMapper.levelFindOne(event);
     // Insert image url
-    event.picture = `src/assets/resource/sports/${sport.id}.jpg`;
+    event.picture = `http://localhost:4000/images/sports/${sport.id}.jpg`;
     // Formate Date
     event.start_date = formatDate(event.start_date);
     event.finish_date = formatDate(event.finish_date);
