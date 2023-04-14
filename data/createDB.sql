@@ -17,7 +17,7 @@ CREATE TABLE "user" (
     "email" TEXT NOT NULL UNIQUE,
     "password" TEXT NOT NULL,
     "pseudo" TEXT NOT NULL,
-    "picture" TEXT,
+    "picture" TEXT DEFAULT 'http://localhost:4000/images/users/default.jpg',
     "birthday" TEXT,
     "bio" TEXT,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
