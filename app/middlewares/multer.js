@@ -1,5 +1,7 @@
 const multer = require('multer');
 const path = require('path');
+const BASE_URL = process.env.BASE_URL;
+const PORT = process.env.PORT;
 
 //Multipurpose Internet Mail Extensions = Pictire validation
 const MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
@@ -26,11 +28,11 @@ const storage = multer.diskStorage({
     // Update picture field for BDD
     // If we update user
     if(req.baseUrl.slice(1) === 'user') {
-      req.body.picture = `/images/users/user${req.params.id}${extractOriginalName}`;
+      req.body.picture = `${BASE_URL}:${PORT}/images/users/user${req.params.id}${extractOriginalName}`;
       fileName = `user${req.params.id}${extractOriginalName}`;
       // If we update event
     } else if (req.baseUrl.slice(1) === 'event') {
-      req.body.picture = `/images/events/event${req.params.id}${extractOriginalName}`;
+      req.body.picture = `${BASE_URL}:${PORT}/images/events/event${req.params.id}${extractOriginalName}`;
       fileName = `event${req.params.id}${extractOriginalName}`;
     }
 

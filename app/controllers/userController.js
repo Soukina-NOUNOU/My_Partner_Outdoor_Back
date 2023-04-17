@@ -1,6 +1,6 @@
-
 const dataMapper = require("../models/dataMapper");
 const APIError = require("../middlewares/handlers/APIError");
+const { formatDate } = require('../utils/formatDate');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -72,7 +72,6 @@ const userController = {
       "password",
       "pseudo",
       "picture",
-      "birthday",
       "bio",
     ];
     fields.forEach((field) => {
@@ -80,6 +79,11 @@ const userController = {
         user[field] = newUserData[field];
       }
     });
+    // Compare and format Date 
+    if (newUserData.birthday) {
+      user.birthday = formatDate(newUserData.birthday);
+    };
+
     // If we need to Update password
     if (newUserData.password) {
       const saltRounds = 10;
