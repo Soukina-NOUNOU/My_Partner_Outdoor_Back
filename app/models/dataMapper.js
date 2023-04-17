@@ -261,7 +261,7 @@ const dataMapper = {
   },
   // Get all messages in Event
   async eventFindAllMessages (messages) {
-    const query = `SELECT event.id AS eventid, message.id AS messageid, message.user_id AS userid, message.content, message.created_at, "user".pseudo 
+    const query = `SELECT event.id AS eventid, message.id AS messageid, message.user_id AS userid, message.content, message.created_at, "user".pseudo, "user".picture 
     FROM "event"
     JOIN "message" ON message.event_id = event.id
     JOIN "user" ON message.user_id = "user".id
