@@ -178,7 +178,8 @@ const dataMapper = {
         organizer_id = $11,
         sport_id = $12,
         level_id = $13,
-        address_id = $14
+        address_id = $14,
+        updated_at=NOW()
       WHERE id = $15
       RETURNING *;
     `;
