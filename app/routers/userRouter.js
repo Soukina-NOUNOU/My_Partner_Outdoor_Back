@@ -16,8 +16,8 @@ const router = express.Router();
  * @property {string} firstname - James
  * @property {string} lastname - Dean
  * @property {string} email - jamesdean@gmail.com
- * @property {string} password - P@SSW0RD!
- * @property {string} repeat_password - P@SSW0RD!
+ * @property {string} password - P@ssw0rd!
+ * @property {string} repeat_password - P@ssw0rd!
  * @property {string} pseudo - JD
  * @property {string} sport - Football
  */
@@ -28,7 +28,7 @@ const router = express.Router();
  * @property {string} firstname - James
  * @property {string} lastname - Dean
  * @property {string} email - jamesdean@gmail.com
- * @property {string} password - P@SSW0RD!
+ * @property {string} password - P@ssw0rd!
  * @property {string} pseudo - JD
  * @property {string} picture - My user picture
  * @property {string} birthday - 01/01/1980
@@ -44,7 +44,7 @@ const router = express.Router();
  * Models type of UserLogin
  * @typedef UserLogin
  * @property {string} email - jamesdean@gmail.com
- * @property {string} password - P@SSW0RD!
+ * @property {string} password - P@ssw0rd!
  */
 
 
