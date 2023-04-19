@@ -130,7 +130,10 @@ const eventController = {
       const err = new APIError(`Can not update event`, 400);
       return next(err);
     };
-    res.status(200).json(results);
+
+    // If no error with UPDATE we return the updated event
+    const updatedEvent = await dataMapper.eventFindByPk(id);
+    res.status(200).json(updatedEvent);
   },
   // Delete one Event
   async delete(req, res, next){
