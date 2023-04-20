@@ -222,7 +222,7 @@ const eventController = {
       const err = new APIError(`Can not create message`, 400);
       return next(err);
     }
-    res.status(200).json(`Message with id : ${results.id} has been added to event with id : ${id}`);
+    res.status(200).json(results);
   },
   // Delete message in one event
   async deleteMessage (req, res, next){
