@@ -73,16 +73,13 @@ const userController = {
       "pseudo",
       "picture",
       "bio",
+      "birthday"
     ];
     fields.forEach((field) => {
       if (newUserData[field]) {
         user[field] = newUserData[field];
       }
     });
-    // Compare and format Date 
-    if (newUserData.birthday) {
-      user.birthday = formatDate(newUserData.birthday);
-    };
 
     // If we need to Update password
     if (newUserData.password) {
