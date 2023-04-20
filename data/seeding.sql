@@ -40,7 +40,7 @@ INSERT INTO "level"
 ("name")
 VALUES
 ('Débutant'),
-('Intermediaire'),
+('Intermédiaire'),
 ('Confirmé');
 
 COMMIT;

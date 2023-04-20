@@ -220,7 +220,7 @@ const dataMapper = {
       JOIN "address" ON event.address_id = address.id
       JOIN "level" ON event.level_id = level.id
       JOIN "user" ON event.organizer_id = "user".id 
-      ORDER BY RANDOM () LIMIT 9
+      ORDER BY RANDOM () LIMIT 12
       `;
     const results = await client.query(query);
     return results.rows;
