@@ -266,7 +266,8 @@ const dataMapper = {
     FROM "event"
     JOIN "message" ON message.event_id = event.id
     JOIN "user" ON message.user_id = "user".id
-    WHERE event.id=$1`;
+    WHERE event.id=$1
+    ORDER BY message.created_at DESC`;
     const results = await client.query(query, [messages]);
     return results.rows;
   },
