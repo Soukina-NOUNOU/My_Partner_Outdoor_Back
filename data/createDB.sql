@@ -74,7 +74,7 @@ CREATE TABLE "event" (
 CREATE TABLE "message" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "content" TEXT NOT NULL,
-  "user_id" INT NOT NULL REFERENCES "user"("id"),
+  "user_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "event_id" INT NOT NULL REFERENCES "event"("id") ON DELETE CASCADE,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ
