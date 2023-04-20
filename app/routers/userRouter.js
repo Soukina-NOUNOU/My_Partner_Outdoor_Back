@@ -4,7 +4,6 @@ const upload = require('../middlewares/multer');
 const { catchErrors } = require('../middlewares/handlers/errorHandlers');
 const validate = require('../middlewares/validation/validation');
 const { checkParamsId } = require ('../middlewares/checkParams');
-const { checkDate } = require('../middlewares/checkDate');
 const { checkJWT } = require('../middlewares/security');
 const { post: postSchema, path: patchSchema ,get: getSchema } = require('../middlewares/validation/schema/user');
 const router = express.Router();
@@ -161,7 +160,7 @@ router.post('/login', catchErrors(userController.login));
  * @returns {Error} 404 - Page not found
  * @returns {Error} 500 - An error has occurred and we\'re working to fix problem!
  */
-router.patch('/:id', checkParamsId, checkDate, validate(patchSchema, 'body'), catchErrors(userController.modify));
+router.patch('/:id', checkParamsId, validate(patchSchema, 'body'), catchErrors(userController.modify));
 
 /**
  * Delete a User
